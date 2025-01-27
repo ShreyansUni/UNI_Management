@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="NLog.Extensions.Logging" Version="5.3.14" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\UNI_Management.Common\UNI_Management.Common.csproj" />
+	  <ProjectReference Include="..\UNI_Management.Data\UNI_Management.Data.csproj" />
+	  <ProjectReference Include="..\UNI_Management.Domain\UNI_Management.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
