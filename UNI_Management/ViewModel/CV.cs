@@ -1,4 +1,4 @@
-﻿namespace UNI_Management.Controllers
+﻿namespace UNI_Management.ViewModel
 {
     public class CV
     {

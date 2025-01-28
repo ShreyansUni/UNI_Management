@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UNI_Management.Controllers;
 
 namespace TilesFinders.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         public IActionResult Index()
         {

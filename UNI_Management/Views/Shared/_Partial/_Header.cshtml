@@ -32,7 +32,7 @@
                     <!--begin::Menu-->
                     <div class="menu menu-lg-rounded menu-column menu-lg-row menu-state-bg menu-title-gray-700 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-400 fw-bold my-5 my-lg-0 align-items-stretch" id="#kt_header_menu" data-kt-menu="true">
                         <div class="menu-item me-lg-1">
-                            <a class="menu-link active py-3" href="../../demo1/dist/index.html">
+                            <a type="button" class="menu-link active py-3 btn" asp-action="Index" asp-controller="Home" role="button">
                                 <span class="menu-title">Dashboard</span>
                             </a>
                         </div>
@@ -79,7 +79,7 @@
                             <!--end::Menu separator-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a asp-action="Index" asp-controller="Account" class="menu-link px-5 btn" role="button">Log Out</a>
+                                <a onclick="showLogoutConfirmation()" class="menu-link px-5 btn" role="button">Log Out</a>
                             </div>
                             <!--end::Menu item-->
                             <!--begin::Menu separator-->
@@ -87,7 +87,7 @@
                             <!--end::Menu separator-->
                             <!--begin::Menu item-->
                             <div class="menu-item px-5">
-                                <a asp-action="ChangePassword" asp-controller="Account" class="menu-link px-5 btn" role="button">Change Password</a>
+                                <a asp-controller="Account" asp-action="ChangePassword" class="menu-link px-5 btn" role="button">Change Password</a>
                             </div>
                             <!--end::Menu item-->
                         </div>
@@ -119,3 +119,7 @@
     <!--end::Container-->
 </div>
 <!--end::Header-->
+
+@section BodyEndScript {
+    <script src="~/viewjs/common.js"></script>
+}

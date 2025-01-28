@@ -4,7 +4,7 @@ using UNI_Management.Models;
 
 namespace UNI_Management.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 

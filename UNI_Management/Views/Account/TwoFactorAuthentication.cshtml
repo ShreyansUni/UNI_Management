@@ -4,114 +4,86 @@
 
 <div class="d-flex flex-column flex-root">
 	<!--begin::Authentication - Two-stes -->
-	<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-		<!--begin::Aside-->
-		<div class="d-flex flex-column flex-lg-row-auto w-xl-600px positon-xl-relative" style="background-color:#F5F5F5">
+	<div class="d-flex flex-column flex-column-fluid bgi-position-y-bottom position-x-center bgi-no-repeat bgi-size-contain bgi-attachment-fixed" style="background-image: url(assets/media/illustrations/sketchy-1/14.png">
+		<!--begin::Content-->
+		<div class="d-flex flex-center flex-column flex-column-fluid p-10 pb-lg-20">
+			<!--begin::Logo-->
+			<a href="../../demo1/dist/index.html" class="mb-12">
+				<img alt="Logo" src="~/assets/images/unique_it_logo.webp" class="h-70px" />
+			</a>
+			<!--end::Logo-->
 			<!--begin::Wrapper-->
-			<div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-600px scroll-y">
-				<!--begin::Content-->
-				<div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
-					<!--begin::Logo-->
-					<a href="../../demo8/dist/index.html" class="py-9 mb-5">
-						<img alt="Logo" src="~/assets/images/unique_it_logo.webp" class="h-60px" />
-					</a>
-					<!--end::Logo-->
-					<!--begin::Title-->
-					<h1 class="fw-bolder fs-2qx pb-5 pb-md-10" style="color: #0099FF;">Welcome to UniqueItSolutions</h1>
-					<!--end::Title-->
-					<!--begin::Description-->
-					<p class="fw-bold fs-2" style="color: #00CC99;">
-						Discover Amazing Metronic
-						<br />with great build tools
-					</p>
-					<!--end::Description-->
-				</div>
-				<!--end::Content-->
-				<!--begin::Illustration-->
-				<div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(assets/media/illustrations/sketchy-1/13.png"></div>
-				<!--end::Illustration-->
+			<div class="w-lg-600px bg-body rounded shadow-sm p-10 p-lg-15 mx-auto">
+				<!--begin::Form-->
+				<form class="form w-100 mb-10" novalidate="novalidate" id="kt_sing_in_two_steps_form">
+					<!--begin::Icon-->
+					<div class="text-center mb-10">
+						<img alt="Logo" class="mh-125px" src="assets/media/svg/misc/smartphone.svg" />
+					</div>
+					<!--end::Icon-->
+					<!--begin::Heading-->
+					<div class="text-center mb-10">
+						<!--begin::Title-->
+						<h1 class="text-dark mb-3">Two Step Verification</h1>
+						<!--end::Title-->
+						<!--begin::Sub-title-->
+						<div class="text-muted fw-bold fs-5 mb-5">Enter the verification code we sent to</div>
+						<!--end::Sub-title-->
+						<!--begin::Mobile no-->
+						<div class="fw-bolder text-dark fs-3">******7859</div>
+						<!--end::Mobile no-->
+					</div>
+					<!--end::Heading-->
+					<!--begin::Section-->
+					<div class="mb-10 px-md-10">
+						<!--begin::Label-->
+						<div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
+						<!--end::Label-->
+						<!--begin::Input group-->
+						<div class="d-flex flex-wrap flex-stack">
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" autofocus />
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
+							<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
+						</div>
+						<!--begin::Input group-->
+					</div>
+					<!--end::Section-->
+					<!--begin::Submit-->
+					<div class="d-flex flex-center">
+						<button type="submit" id="kt_sing_in_two_steps_submit" class="btn btn-lg btn-primary fw-bolder btn" asp-action="Index" asp-controller="Home">
+							<span class="indicator-label">Submit</span>
+							<span class="indicator-progress">
+								Please wait...
+								<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+							</span>
+						</button>
+					</div>
+					<!--end::Submit-->
+				</form>
+				<!--end::Form-->
 			</div>
 			<!--end::Wrapper-->
 		</div>
-		<!--end::Aside-->
-		<!--begin::Body-->
-		<div class="d-flex flex-column flex-lg-row-fluid py-10">
-			<!--begin::Content-->
-			<div class="d-flex flex-center flex-column flex-column-fluid">
-				<!--begin::Wrapper-->
-				<div class="w-lg-600px p-10 p-lg-15 mx-auto">
-					<!--begin::Form-->
-					<form class="form w-100 mb-10" novalidate="novalidate" id="kt_sing_in_two_steps_form">
-						<!--begin::Icon-->
-						<div class="text-center mb-10">
-							<img alt="Logo" class="mh-125px" src="assets/media/svg/misc/smartphone.svg" />
-						</div>
-						<!--end::Icon-->
-						<!--begin::Heading-->
-						<div class="text-center mb-10">
-							<!--begin::Title-->
-							<h1 class="text-dark mb-3">Two Step Verification</h1>
-							<!--end::Title-->
-							<!--begin::Sub-title-->
-							<div class="text-muted fw-bold fs-5 mb-5">Enter the verification code we sent to</div>
-							<!--end::Sub-title-->
-							<!--begin::Mobile no-->
-							<div class="fw-bolder text-dark fs-3">******7859</div>
-							<!--end::Mobile no-->
-						</div>
-						<!--end::Heading-->
-						<!--begin::Section-->
-						<div class="mb-10 px-md-10">
-							<!--begin::Label-->
-							<div class="fw-bolder text-start text-dark fs-6 mb-1 ms-1">Type your 6 digit security code</div>
-							<!--end::Label-->
-							<!--begin::Input group-->
-							<div class="d-flex flex-wrap flex-stack">
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" autofocus />
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
-								<input type="text" maxlength="1" class="form-control form-control-solid h-60px w-60px fs-2qx text-center border-primary border-hover mx-1 my-2 otp-input" />
-							</div>
-							<!--begin::Input group-->
-						</div>
-						<!--end::Section-->
-						<!--begin::Submit-->
-						<div class="d-flex flex-center">
-							<button type="submit" id="kt_sing_in_two_steps_submit" asp-action="Index" asp-controller="Home" class="btn btn-lg btn-primary fw-bolder">
-								<span class="indicator-label">Submit</span>
-								<span class="indicator-progress">
-									Please wait...
-									<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
-								</span>
-							</button>
-						</div>
-						<!--end::Submit-->
-					</form>
-					<!--end::Form-->
-				</div>
-				<!--end::Wrapper-->
-			</div>
-			<!--end::Content-->
-			<!--begin::Footer-->
-			<div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
-				<!--begin::Links-->
-				<div class="d-flex flex-center fw-bold fs-6">
-					<div class="container d-flex flex-column align-items-center justify-content-center">
-						<!--begin::Copyright-->
-						<div class="text-dark">
-							<span class="text-muted fw-bold me-1">2021©</span>
-							<a href="https://www.theuniqueitsolution.com/" target="_blank" class="text-gray-800 text-hover-primary">Powered By Unique IT Solution</a>
-						</div>
-						<!--end::Copyright-->
+		<!--end::Content-->
+		<!--begin::Footer-->
+		<div class="d-flex flex-center flex-column-auto p-10">
+			<!--begin::Links-->
+			<div class="d-flex align-items-center fw-bold fs-6">
+				<div class="container d-flex flex-column align-items-center justify-content-center">
+					<!--begin::Copyright-->
+					<div class="text-dark">
+						<span class="text-muted fw-bold me-1">2021©</span>
+						<a href="https://www.theuniqueitsolution.com/" target="_blank" class="text-gray-800 text-hover-primary">Powered By Unique IT Solution</a>
 					</div>
+					<!--end::Copyright-->
 				</div>
-				<!--end::Links-->
 			</div>
-			<!--end::Footer-->
+			<!--end::Links-->
 		</div>
-		<!--end::Body-->
+		<!--end::Footer-->
 	</div>
 	<!--end::Authentication - Two-stes-->
 </div>

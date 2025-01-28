@@ -1,6 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 
-namespace UNI_Management.Controllers
+namespace UNI_Management.ViewModel
 {
     public class DecodeToken
     {

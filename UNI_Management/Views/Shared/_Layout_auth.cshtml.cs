@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace RBNews.Views.Shared
+namespace UNI_Management.Views.Shared
 {
     public class _Layout_authModel : PageModel
     {

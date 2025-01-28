@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using UNI_Management.Common
+@model UNI_Management.BaseModelViewModel
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <base href="">
@@ -30,6 +33,9 @@
     <link href="@Url.Content("~/assets/css/style.bundle.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/assets/css/custom.css")" rel="stylesheet" type="text/css" />
     <!--end::Global Stylesheets Bundle-->
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body id="kt_body" class="header-fixed header-tablet-and-mobile-fixed toolbar-enabled toolbar-fixed aside-enabled aside-fixed" style="--kt-toolbar-height:10px;--kt-toolbar-height-tablet-and-mobile:55px">
     @* <header>
@@ -75,17 +81,13 @@
             </div>
         </div>
     </div>
-
-    @* <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - UNI_Management - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
+    @RenderSection("BodyModalSection", required: false)
     <script>var hostUrl = "assets/";</script>
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="@Url.Content("assets/plugins/global/plugins.bundle.js")"></script>
     <script src="@Url.Content("assets/js/scripts.bundle.js")"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.18/dist/sweetalert2.min.js"></script>
     <!--end::Global Javascript Bundle-->
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script src="@Url.Content("assets/js/custom/widgets.js")"></script>
@@ -97,8 +99,8 @@
     <script src="@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js")"></script>
     <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
     <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
+    <script src="@Url.Content("~/viewjs/common.js")"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
