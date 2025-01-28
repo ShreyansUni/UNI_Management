@@ -16,7 +16,7 @@
     <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css"
           rel="stylesheet">
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+    <link rel="shortcut icon" href="@Url.Content("~/assets/images/Unique_it.jpg")" />
     <!--begin::Fonts-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -64,16 +64,14 @@
             <!--begin::Wrapper-->
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <!--begin::Header-->
-                <div class="container-fluid">
-                    @RenderBody()
+                @RenderBody()
 
-                </div>
+
                 <partial name="_Partial/_Footer" />
 
                 <!--end::Header-->
                 <!--begin::Footer-->
                 <!--end::Header-->
-
             </div>
         </div>
     </div>
