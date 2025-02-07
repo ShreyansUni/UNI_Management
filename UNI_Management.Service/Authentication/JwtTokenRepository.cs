@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using UNI_Management.Domain.DataContext;
 
 namespace UNI_Management.Service.Authentication
 {
@@ -17,9 +18,11 @@ namespace UNI_Management.Service.Authentication
     public class JwtTokenRepository : IJwtTokenRepository
     {
         private readonly IConfiguration _config;
-        public JwtTokenRepository(IConfiguration config)
+        private readonly ApplicationDbContext _context;
+        public JwtTokenRepository(IConfiguration config, ApplicationDbContext context)
         {
             _config = config;
+            _context = context;
         }
 
         public string GenerateJWTAuthetication()
@@ -44,6 +47,28 @@ namespace UNI_Management.Service.Authentication
             );
             EmailHelper.SendMail("lonavala.thewalkiestalkies14824@gmail.com", "Log-In OTP for RB-News", DateTime.Now + " strat in otp check 53 ");
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GenerateJwtToken(string email, int id)
+        {
+            // Token Generation 
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("email", email), new Claim("id", id.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(30),
+                Issuer = _config["Jwt:Issuer"],
+                //Audience = _audience,
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key)
+
+                , SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var jwtToken = tokenHandler.WriteToken(token);
+
+            return jwtToken;
         }
 
         public string GenerateTeamMemberJWTAuthetication()

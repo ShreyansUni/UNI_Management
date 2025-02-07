@@ -10,7 +10,7 @@ namespace UNI_Management.Service.Authentication
 {
     public interface IJwtTokenRepository
     {
-        public string GenerateJWTAuthetication();
+        public string GenerateJwtToken(string email, int id);
         public string GenerateTeamMemberJWTAuthetication();
         public bool ValidateToken(string token, out JwtSecurityToken jwtSecurityToken);
     }

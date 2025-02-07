@@ -69,16 +69,24 @@ namespace UNI_Management.Common
         {
             return GetEnumDescription((Enum)(object)((TEnum)(object)value));
         }
-        public enum ActionType
+
+        public enum Gender
         {
-            TopNewsEdit =1,
+            Female,
+            Male
         }
-        public enum NewsType
+        public enum UserType
         {
-            All=1,
-            Top=2,
-            Save=3
+            Admin = 1,
+            Employee = 2,
         }
+        public enum LeaveType
+        {
+            FullLeave = 1,
+            FirstHalf = 2,
+            SecondHalf = 3
+        }
+
         public enum CheckMail
         {
             [Description("User not registered kindly sign-up.")]

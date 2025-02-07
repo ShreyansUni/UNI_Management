@@ -30,8 +30,8 @@ namespace UNI_Management.Common
         #region Default Connection
 
         public static string ConnectionString => Configuration["Data:DefaultConnection:ConnectionString"];
-        public static string StageConnectionString => Configuration["Data:DefaultConnection:Stage_ConnectionString"];
-        public static string ProductionConnectionString => Configuration["Data:DefaultConnection:Production_ConnectionString"];
+        //public static string StageConnectionString => Configuration["Data:DefaultConnection:Stage_ConnectionString"];
+        //public static string ProductionConnectionString => Configuration["Data:DefaultConnection:Production_ConnectionString"];
 
         public static string IpAddress => _httpContextAccessor.HttpContext?.Connection.RemoteIpAddress?.ToString();
         public static string Domainmain => _httpContextAccessor.HttpContext?.Request.Host.ToUriComponent();

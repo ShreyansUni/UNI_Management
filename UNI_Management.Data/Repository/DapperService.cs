@@ -15,7 +15,7 @@ namespace UNI_Management.Data.Repository
         #region Properties
         //private static readonly string ConnStringInfoCar = ConfigItems.ConnectionStringInfoCar;
         //private static readonly string ConnStringFFM2 = ConfigItems.ConnectionStringFFM2;
-        private static readonly string connString = "Host=CRM_Leadmanagerdevinstance.cxaoi00yiemz.us-east-1.rds.amazonaws.com;Database=CRM_LeadmanagerDev;Username=CRM_LeadmanagerDevUser;Password=CRM_Leadmanager!dev1936";
+        private static readonly string connString = "User ID = postgres;Password=123456;Server=localhost;Port=5432;Database=UNI_ManagementDB;Integrated Security=true;Pooling=true;";
 
         public object DapperHelpers { get; private set; } = null!;
 

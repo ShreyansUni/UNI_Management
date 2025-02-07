@@ -1,0 +1,223 @@
+﻿@model UNI_Management.ViewModel.LeaveRequestViewModel
+
+<div class="p-5 container mt-5">
+    <h2 class="mb-4">Leave Application Form</h2>
+    <form asp-action="SubmitLeaveRequest" asp-controller="LeaveRequest">
+        <!-- Name -->
+        <input asp-for="leaveRequestDetails.LeaveID" hidden />
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" disabled asp-for=leaveRequestDetails.LeaveRequestorName class="form-control" />
+            <input type="number" hidden asp-for=leaveRequestDetails.LeaveRequestorID />
+            <span asp-validation-for="leaveRequestDetails.LeaveRequestorID" class="text-danger"></span>
+        </div>
+        <!-- Reporting Person -->
+        <div class="mb-3">
+            <label for="reporting_person" class="form-label">Reporting Person</label>
+            <input type="text" disabled asp-for=leaveRequestDetails.LeaveRequestorName class="form-control" />
+            <input type="number" hidden asp-for=leaveRequestDetails.LeaveResponsorID />
+            <span asp-validation-for="leaveRequestDetails.LeaveResponsorID" class="text-danger"></span>
+        </div>
+        <!-- Reason For Leave -->
+        <div class="mb-3">
+            <label for="reason" class="form-label">Reason For Leave <span class="text-danger">*</span></label>
+            <textarea asp-for="leaveRequestDetails.ReasonForLeave" id="reason" rows="8" class="form-control" placeholder="Enter reason for leave"></textarea>
+            <span asp-validation-for="leaveRequestDetails.ReasonForLeave" class="text-danger"></span>
+
+        </div>
+        <!-- Leave Start Date & Duration -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="start_date" class="form-label">Leave Start Date <span class="text-danger">*</span></label>
+                <input asp-for="leaveRequestDetails.LeaveStartDate"
+                       onchange="calculateLeaveDuration()"
+                       id="startDate"
+                       min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                       type="date"
+                       value="@(Model.leaveRequestDetails.LeaveStartDate?.ToString("yyyy-MM-dd") ?? DateTime.Now.ToString("yyyy-MM-dd"))"
+                       class="form-control">
+                <span asp-validation-for="leaveRequestDetails.LeaveStartDate" class="text-danger"></span>
+
+            </div>
+            <div class="col-md-6">
+                <label for="start_duration" class="form-label">Duration</label>
+                <select asp-for="leaveRequestDetails.LeaveStartType" id="start_duration" class="form-select">
+                    <option selected value=1>Full Day</option>
+                    <option value=2>Half Day</option>
+                </select>
+                <span asp-validation-for="leaveRequestDetails.LeaveStartType" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <!-- Leave End Date & Duration -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="end_date" class="form-label">Leave End Date <span class="text-danger">*</span></label>
+                <input asp-for="leaveRequestDetails.LeaveEndDate"
+                       onchange="calculateLeaveDuration()"
+                       value="@(Model.leaveRequestDetails.LeaveEndDate?.ToString("yyyy-MM-dd") ?? DateTime.Now.ToString("yyyy-MM-dd"))"
+                       min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                       type="date"
+                       id="endDate"
+                       class="form-control" />
+
+                <span asp-validation-for="leaveRequestDetails.LeaveEndDate" class="text-danger"></span>
+
+            </div>
+            <div class="col-md-6">
+                <label for="end_duration" class="form-label">Duration</label>
+                <select asp-for="leaveRequestDetails.LeaveEndType" id="end_duration" class="form-select">
+                    <option value=1 selected>Full Day</option>
+                    <option value=2>Half Day</option>
+                </select>
+                <span asp-validation-for="leaveRequestDetails.LeaveEndType" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <!-- Actual and Total Leave Duration -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="actual_duration" class="form-label">Actual Leave Duration</label>
+                <input asp-for="leaveRequestDetails.ActualLeaveDuration" type="number" value=@(Model.leaveRequestDetails.ActualLeaveDuration!=default?Model.leaveRequestDetails.ActualLeaveDuration:1) id="workingDaysHolidayInput" readonly class="form-control">
+                <span asp-validation-for="leaveRequestDetails.ActualLeaveDuration" class="text-danger"></span>
+
+            </div>
+            <div class="col-md-6">
+                <label for="total_duration" class="form-label">Total Leave Duration</label>
+                <input asp-for="leaveRequestDetails.TotalLeaveDuration" type="number" value=@(Model.leaveRequestDetails.TotalLeaveDuration!=default?Model.leaveRequestDetails.TotalLeaveDuration:1) id="totalDaysHolidayInput" class="form-control" readonly>
+                <span asp-validation-for="leaveRequestDetails.TotalLeaveDuration" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <!-- Return Date & Requested Date -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="return_date" class="form-label">Return Date</label>
+                <input asp-for="leaveRequestDetails.ReturnDate" readonly value="@(Model.leaveRequestDetails.ReturnDate!=default?Model.leaveRequestDetails.ReturnDate.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))"
+                        type="date" id="return_date" class="form-control">
+                <span asp-validation-for="leaveRequestDetails.ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label for="requested_date" class="form-label">Requested Date</label>
+                <input asp-for="leaveRequestDetails.RequestedDate" type="date" readonly id="requested_date" class="form-control" value="@(Model.leaveRequestDetails.RequestedDate!=default?Model.leaveRequestDetails.RequestedDate.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd"))">
+                <span asp-validation-for="leaveRequestDetails.RequestedDate" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <!-- Phone Numbers -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="phone_no" class="form-label">Phone No. <span class="text-danger">*</span></label>
+                <input asp-for="leaveRequestDetails.PhoneNumber" type="text" id="phone_no" class="form-control">
+                <span asp-validation-for="leaveRequestDetails.PhoneNumber" class="text-danger"></span>
+
+            </div>
+            <div class="col-md-6">
+                <label for="alt_phone_no" class="form-label">Alternate Phone No.</label>
+                <input asp-for="leaveRequestDetails.AlternatePhoneNumber" type="text" id="alt_phone_no" class="form-control">
+                <span asp-validation-for="leaveRequestDetails.AlternatePhoneNumber" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <!-- Available on Phone -->
+        <div class="mb-3 ">
+            <input asp-for="leaveRequestDetails.IsAvailableOnPhone" class="form-check-input" type="checkbox" />
+            <label for="available_on_phone" class="form-label">Available On Phone</label>
+            <span asp-validation-for="leaveRequestDetails.IsAvailableOnPhone" class="text-danger"></span>
+
+            <input asp-for="leaveRequestDetails.IsAdhocLeave" class="form-check-input" type="checkbox" />
+            <label for="adhoc_leave" class="form-label">Adhoc Leave?</label>
+            <span asp-validation-for="leaveRequestDetails.IsAdhocLeave" class="text-danger"></span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end w-100">
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <button type="button" class="btn btn-secondary">Cancel</button>
+        </div>
+    </form>
+</div>
+<script>
+    function calculateLeaveDuration() {
+        let startDateInput = document.getElementById("startDate");
+        let endDateInput = document.getElementById("endDate");
+        let returnDateInput = document.getElementById("return_date");
+        let endDurationSelect = document.getElementById("end_duration");
+        let totalDaysInput = document.getElementById("totalDaysHolidayInput");
+        let actualLeaveDurationInput = document.getElementById("workingDaysHolidayInput");
+
+        let startDate = new Date(startDateInput.value);
+        let endDate = new Date(endDateInput.value);
+
+        endDateInput.min = startDateInput.value;
+        // Ensure End Date is not before Start Date
+        if (endDate < startDate) {
+            endDateInput.value = startDateInput.value;
+            endDate = new Date(startDateInput.value);
+        }
+
+
+        // Set Return Date to one day after End Date
+        let returnDate = new Date(endDate);
+        returnDate.setDate(returnDate.getDate() + 1);
+        returnDateInput.value = returnDate.toISOString().split('T')[0];
+
+        // Disable End Duration if Start Date equals End Date
+        if (startDate.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]) {
+            endDurationSelect.disabled = true;
+        } else {
+            endDurationSelect.disabled = false;
+        }
+
+        // Calculate total leave duration and update input
+        let totalDays = getDaysDifference(startDate, endDate) + 1; // +1 to include both start and end dates
+        totalDaysInput.value = totalDays;
+
+        // Subtract Sundays to get Actual Leave Duration
+        let sundayCount = countSundays(startDateInput.value, endDateInput.value);
+        let actualLeaveDuration = totalDays - sundayCount;
+
+        // Update Actual Leave Duration
+        actualLeaveDurationInput.value = actualLeaveDuration;
+    }
+
+    // Function to calculate the difference in days between two dates
+    function getDaysDifference(date1, date2) {
+        const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+
+        // Convert dates to milliseconds
+        const date1Ms = date1.getTime();
+        const date2Ms = date2.getTime();
+
+        // Calculate the absolute difference in milliseconds
+        const diffMs = Math.abs(date2Ms - date1Ms);
+
+        // Convert back to days and return
+        return Math.floor(diffMs / oneDay);
+    }
+
+    // Function to count the number of Sundays between two dates
+    function countSundays(startDate, endDate) {
+        // Convert string dates to Date objects
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        let sundayCount = 0;
+
+        // Loop through all the dates between start and end
+        for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+            if (date.getDay() === 0) {  // 0 represents Sunday
+                sundayCount++;
+            }
+        }
+
+        return sundayCount;
+    }
+
+
+</script>

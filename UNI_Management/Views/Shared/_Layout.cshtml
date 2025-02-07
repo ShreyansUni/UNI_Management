@@ -101,6 +101,6 @@
     <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
     <script src="@Url.Content("~/viewjs/common.js")"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("BodyEndScript", required: false)
 </body>
 </html>
