@@ -10,7 +10,6 @@ using UNI_Management.Helper;
 using static UNI_Management.ViewModel.EmployeeViewModel;
 using UNI_Management.Domain;
 using static QRCoder.PayloadGenerator;
-using UNI_Management.DataModels;
 
 namespace UNI_Management.Controllers
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using UNI_Management.Common;
-using UNI_Management.DataModels;
-using domain = UNI_Management.DataModels.Domain;
+using UNI_Management.Domain.DataModels;
+using domain = UNI_Management.Domain.DataModels.Domain;
 
 namespace UNI_Management.Domain.DataContext;
 
@@ -23,6 +23,7 @@ public partial class ApplicationDbContext : DbContext
     {
         _httpContextAccessor = httpContextAccessor;
     }
+
 
     public virtual DbSet<Business> Businesses { get; set; }
 
@@ -45,6 +46,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<ProjectAttachment> ProjectAttachments { get; set; }
+
+    public virtual DbSet<WorkLog> WorkLogs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -131,10 +134,13 @@ public partial class ApplicationDbContext : DbContext
                 .HasConstraintName("FK_ProjectAttachment_to_Project");
         });
 
+        modelBuilder.Entity<WorkLog>(entity =>
+        {
+            entity.HasKey(e => e.WorkLogId).HasName("WorkLog_pkey");
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-
 }

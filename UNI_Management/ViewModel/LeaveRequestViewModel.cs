@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace UNI_Management.ViewModel
 {
-    public class LeaveRequestViewModel :BaseModelViewModel
+    public class LeaveRequestViewModel : BaseModelViewModel
     {
         public LeaveRequestViewModel()
         {

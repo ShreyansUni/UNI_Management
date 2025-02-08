@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace UNI_Management.DataModels;
+namespace UNI_Management.Domain.DataModels;
 
 [Table("ProjectAttachment")]
 public partial class ProjectAttachment

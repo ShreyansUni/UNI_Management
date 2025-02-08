@@ -1,0 +1,45 @@
+﻿@* @model List<UNIManagement.Entities.ViewModel.WorkLogViewModal> *@
+@* @using UNIManagement.Entities.ViewModel; *@
+
+<div class=" d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <div id="kt_content_container" class="container-xxl">
+
+             
+
+                <div class="row pt-10">
+                    <div class="col-md-12">
+                        <div class="card text-center">
+
+                            <div class="card-body pt-0">
+                                <div class="row pt-5">
+                                    <div class="col-md-6 text-start pl-5">
+                                        <h1>WorkLog List</h1>
+
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                    <a class="btn btn-primary" asp-controller="WorkLog" asp-action="AddWorkLog">Add WorkLog</a>
+
+                                    </div>
+
+                            </div><div class="row pt-5">
+
+                              
+                                <div id="ClientListPartialView">
+                                    <partial name="_WorkLogList" />
+
+                                </div>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+        </div>
+
+    </div>
+    <!--end::Post-->
+</div>

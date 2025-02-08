@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UNI_Management.DataModels;
 
 namespace UNI_Management.ViewModel
 {

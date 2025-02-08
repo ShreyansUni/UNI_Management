@@ -1,7 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using UNI_Management.Controllers;
-using UNI_Management.DataModels;
+using UNI_Management.Domain.DataModels;
 using UNI_Management.Service;
 using UNI_Management.Service.Authentication;
 using UNI_Management.ViewModel;

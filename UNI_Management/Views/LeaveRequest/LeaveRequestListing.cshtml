@@ -1,74 +1,77 @@
 ﻿@using UNI_Management.ViewModel
-@model List<LeaveRequestViewModel>
+@model LeaveRequestViewModel
 <div>
     <div class="container mt-4">
         <div class="row">
             <div class="col ">
                 <div class=" my-3 d-flex justify-content-between align-items-center">
-                <h1>Leave Records</h1>
-                <a class="btn btn-outline-primary border-primary border border-2 rounded align-items-center" type="button" asp-action="LeaveRequestFormPage" asp-controller="LeaveRequest">Request A Leave </a>
+                    <h1>Leave Records</h1>
+                    <a class="btn btn-outline-primary border-primary border border-2 rounded align-items-center" type="button" asp-action="LeaveRequestFormPage" asp-controller="LeaveRequest">Request A Leave </a>
                 </div>
                 <div class="bg-white p-5 mb-3 rounded">
-                <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
-                    <thead class="table-active table-hover text-center">
-                        <tr>
-                            <th class="text-center" scope="col">Sr. No</th>
-                            <th class="text-center"  scope="col">Leave Reason</th>
-                            <th class="text-center"  scope="col">Start Date</th>
-                            <th class="text-center"  scope="col">End Date</th>
-                            <th class="text-center"  scope="col">Category</th>
-                            <th class="text-center"  scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (Model.Count > 0)
-                        {
-                            for (int i = 0; i < Model.Count; i++)
-                            {
-                                                <tr class="align-items-center">
-                                                    <td>@(i + 1)</td>
-                                        <td>@Model[i].leaveRequestDetails.ReasonForLeave</td>
-                                        <td>@Model[i].leaveRequestDetails.LeaveStartDate</td>
-                                        <td>@Model[i].leaveRequestDetails.LeaveEndDate</td>
-                                                    <td>
-                                                        <div>
-                                            @{
-                                                var DateToday = DateOnly.FromDateTime(DateTime.Now);
-                                            }
-                                                @if (Model[i].leaveRequestDetails.LeaveStartDate <= DateToday && Model[i].leaveRequestDetails.LeaveEndDate >= DateToday)
-                                            {
-                        // The current date falls within the leave period
-                                                                        <span class="border rounded-2 border-primary border-2 px-2 py-1 text-primary text-bg-primary">Ongoing</span>
-                                            }
-                                                else if (Model[i].leaveRequestDetails.LeaveEndDate < DateToday)
-                                            {
-                                                // The leave period has ended
-                                                                        <span class="  border rounded-2 border-danger px-2 py-1 text-danger border-2 text-bg-danger">Past</span>
-                                            }
-                                                else if (Model[i].leaveRequestDetails.LeaveStartDate > DateToday)
-                                            {
-                                                // The leave period is in the future
-                                                                        <span class="border rounded-2 border-success px-2 py-1 text-success  border-2 text-bg-success">Upcoming</span>
-                                            }
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                            @if (Model[i].leaveRequestDetails.LeaveEndDate < DateToday)
-                                        {
-                                            continue;
-                                        }
-                                            <a type="button" class="btn btn-primary btn-sm" asp-action="EditLeaveRequest" asp-controller="LeaveRequest" asp-route-leaveRequestId=@Model[i].leaveRequestDetails.LeaveID><i class="bi bi-pen-fill"></i></a>
-                                            <button class="btn btn-danger btn-sm" onclick=openDeleteModal(@Model[i].leaveRequestDetails.LeaveID)><i class="bi bi-trash-fill"></i></button>
-                                                    </td>
-                                                </tr>
+                    <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
+                        <thead class="table-active table-hover text-center">
+                            <tr>
+                                <th class="text-center" scope="col">Sr. No</th>
+                                <th class="text-center" scope="col">Leave Reason</th>
+                                <th class="text-center" scope="col">Start Date</th>
+                                <th class="text-center" scope="col">End Date</th>
+                                <th class="text-center" scope="col">Category</th>
+                                <th class="text-center" scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int i = 0;
                             }
-                        }
-                        else
-                        {
-                                    <tr class="d-flex w-100 justify-content-center">No Records Found</tr>
-                        }
-                    </tbody>
-                </table>
+                            @if (Model.leaveRequestList.Count > 0)
+                            {
+                                @foreach (var leaverequest in Model.leaveRequestList)
+                                {
+                                    <tr class="align-items-center">
+                                        <td>@(++i)</td>
+                                        <td>@leaverequest.ReasonForLeave</td>
+                                        <td>@leaverequest.LeaveStartDate</td>
+                                        <td>@leaverequest.LeaveEndDate</td>
+                                        <td>
+                                            <div>
+                                                @{
+                                                    var DateToday = DateOnly.FromDateTime(DateTime.Now);
+                                                }
+                                                @if (leaverequest.LeaveStartDate <= DateToday && leaverequest.LeaveEndDate >= DateToday)
+                                                {
+                                                // The current date falls within the leave period
+                                                    <span class="border rounded-2 border-primary border-2 px-2 py-1 text-primary">Ongoing</span>
+                                                }
+                                                else if (leaverequest.LeaveEndDate < DateToday)
+                                                {
+                                                // The leave period has ended
+                                                    <span class="  border rounded-2 border-danger px-2 py-1 text-danger border-2">Past</span>
+                                                }
+                                                else if (leaverequest.LeaveStartDate > DateToday)
+                                                {
+                                                // The leave period is in the future
+                                                    <span class="border rounded-2 border-success px-2 py-1 text-success  border-2">Upcoming</span>
+                                                }
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (leaverequest.LeaveEndDate < DateToday)
+                                            {
+                                                continue;
+                                            }
+                                            <a type="button" class="btn btn-primary btn-sm" asp-action="EditLeaveRequest" asp-controller="LeaveRequest" asp-route-leaveRequestId=@leaverequest.LeaveID><i class="bi bi-pen-fill"></i></a>
+                                            <button class="btn btn-danger btn-sm" onclick=openDeleteModal(@leaverequest.LeaveID)><i class="bi bi-trash-fill"></i></button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr class="d-flex w-100 justify-content-center">No Records Found</tr>
+                            }
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
@@ -113,7 +116,7 @@
                 type: 'POST',
             data: { leaveRecordID:leaveRecordId },
                 success: function (data) {
-                    if (data) { 
+                    if (data) {
                     window.location.reload();
                     }
                 },
@@ -124,9 +127,9 @@
     }
 </script>
 <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+</script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
