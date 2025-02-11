@@ -34,14 +34,16 @@ namespace UNI_Management.Service
         /// Retrive Lists from Employee Table 
         /// </summary>
         /// <returns></returns>
-        public List<EmployeeDTO> GetEmployeeList(string? filterFirstName, DateTime? filterJoiningDate, int pageSize, int pageIndex, string columnName, string sortDirection)
+        public List<EmployeeDTO> GetEmployeeList(string? filterFirstName, DateTime? filterJoiningDate, string? filterEmployeeType, int pageSize, int pageIndex, string columnName, string sortDirection)
         {
             var employeeList = _context.Employees
-                                .Where(employee => employee.IsDeleted == false &&
-                                (string.IsNullOrEmpty(filterFirstName) || employee.FirstName == filterFirstName) &&
-                                (!filterJoiningDate.HasValue ||
-                                (employee.Joinningdate.HasValue &&
-                                 DateOnly.FromDateTime(employee.Joinningdate.Value) == DateOnly.FromDateTime(filterJoiningDate.Value)))).ToList();
+                               .Where(employee => employee.IsDeleted == false &&
+                               (string.IsNullOrEmpty(filterFirstName) || employee.FirstName.Contains(filterFirstName)) &&
+                               (!filterJoiningDate.HasValue ||
+                               (employee.Joinningdate.HasValue &&
+                               DateOnly.FromDateTime(employee.Joinningdate.Value) == DateOnly.FromDateTime(filterJoiningDate.Value))) &&
+                               (string.IsNullOrEmpty(filterEmployeeType) || employee.EmployeeType == filterEmployeeType))
+                               .ToList();
 
             switch (columnName)
             {
@@ -74,6 +76,23 @@ namespace UNI_Management.Service
             return employeeDTOList;
         }
         #endregion
+
+        public List<EmployeeDTO> GetEmployeeDataWithFilter(string? filterEmployeeType, int? employeeId)
+        {
+            var employeeList = _context.Employees
+                .Where(employee => employee.IsDeleted == false &&
+                       (string.IsNullOrEmpty(filterEmployeeType) || employee.EmployeeType == filterEmployeeType) &&
+                       (employee.EmployeeType == "BDE" || employee.EmployeeType == "Technical"))
+                .Select(employee => new EmployeeDTO
+                {
+                    Employee = employee
+                })
+                .Distinct()
+                .ToList();
+
+            return employeeList;
+        }
+
 
         public EmployeeDTO GetEmployeenData(int EmployeeId)
         {

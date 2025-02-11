@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using UNI_Management.Domain;
 using UNI_Management.ViewModel;
 using static UNI_Management.ViewModel.EmployeeViewModel;
@@ -16,10 +17,20 @@ namespace UNI_Management.Helper.Mapper
                 .ForMember(dest => dest.Joinningdate, mo => mo.MapFrom(src => src.Employee.Joinningdate))
                 .ForMember(dest => dest.EmployeeType, mo => mo.MapFrom(src => src.Employee.EmployeeType))
                 .ForMember(dest => dest.EmployeeId, mo => mo.MapFrom(src => src.Employee.EmployeeId))
-                .ForMember(dest => dest.ContactNumber1, mo => mo.MapFrom(src => src.Employee.ContactNumber1));
+                .ForMember(dest => dest.ContactNumber1, mo => mo.MapFrom(src => src.Employee.ContactNumber1))
+                .ForMember(dest => dest.IsActive, mo => mo.MapFrom(src => src.Employee.IsActive));
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<EmployeeDTO>, List<EmployeeDetails>>(entity);
+        }
+
+        public static List<SelectListItem> ToModelDropdown(this List<EmployeeDTO> entity)
+        {
+            return entity.Select(dto => new SelectListItem
+            {
+                Value = dto.Employee.EmployeeId.ToString(), 
+                Text = dto.Employee.EmployeeType           
+            }).ToList();
         }
 
         public static EmployeeDetails ToModel(this EmployeeDTO entity)

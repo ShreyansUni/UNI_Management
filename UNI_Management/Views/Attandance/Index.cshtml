@@ -1,94 +1,93 @@
 ﻿@model UNI_Management.ViewModel.AttandanceViewModal
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <div class=" d-flex flex-column flex-column-fluid" id="kt_content">
-    <div class="post d-flex flex-column-fluid" id="kt_post">
-        <div id="kt_content_container" class="container-xxl">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card text-center">
-                        <div class="card-header border-0 pt-6 row">
-                            <div class="col-md-12">
-                                <div class="card-toolbar d-flex justify-content-end">
-                                </div>
-                            </div>
+	<div class="post d-flex flex-column-fluid" id="kt_post">
+		<div id="kt_content_container" class="container-xxl">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card text-center">
+						<div class="card-header border-0 pt-6 row">
+							<div class="col-md-12">
+								<div class="card-toolbar d-flex justify-content-end">
+								</div>
+							</div>
 
-                            <div class="card-body pt-0">
+							<div class="card-body pt-0">
 
-                                <div class="row">
-                                    <table class="table border-dark">
-                                        <tr>
-                                            <td class="text-center">
-                                                <label for="month">Select Month:</label>
-                                                <select id="month" class="d-inline-block w-50 ml-2">
+								<div class="row">
+									<table class="table border-dark">
+										<tr>
+											<td class="text-center">
+												<label for="month">Select Month:</label>
+												<select id="month" class="d-inline-block w-50 ml-2">
 
-                                                    <option value='0'>January</option>
-                                                    <option value='1'>February</option>
-                                                    <option value='2'>March</option>
-                                                    <option value='3'>April</option>
-                                                    <option value='4'>May</option>
-                                                    <option value='5'>June</option>
-                                                    <option value='6'>July</option>
-                                                    <option value='7'>August</option>
-                                                    <option value='8'>September</option>
-                                                    <option value='9'>October</option>
-                                                    <option value='10'>November</option>
-                                                    <option value='11'>December</option>
-                                                </select>
-                                            </td>
-                                            <td class="align-middle">
-                                                <label for="dropdownYear">Select Year:</label>
-                                                <select id="dropdownYear" class="d-inline-block w-50 ml-2">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+													<option value='0'>January</option>
+													<option value='1'>February</option>
+													<option value='2'>March</option>
+													<option value='3'>April</option>
+													<option value='4'>May</option>
+													<option value='5'>June</option>
+													<option value='6'>July</option>
+													<option value='7'>August</option>
+													<option value='8'>September</option>
+													<option value='9'>October</option>
+													<option value='10'>November</option>
+													<option value='11'>December</option>
+												</select>
+											</td>
+											<td class="align-middle">
+												<label for="dropdownYear">Select Year:</label>
+												<select id="dropdownYear" class="d-inline-block w-50 ml-2">
+												</select>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-            <div class="row pt-10">
-                <div class="col-md-12">
-                    <div class="card text-center">
-                        <div class="card-header border-0 pt-6 row">
-                            <div class="col-md-12">
-                                <div class="card-toolbar d-flex justify-content-end">
-                                </div>
-                            </div>
+			<div class="row pt-10">
+				<div class="col-md-12">
+					<div class="card text-center">
+						<div class="card-header border-0 pt-6 row">
+							<div class="col-md-12">
+								<div class="card-toolbar d-flex justify-content-end">
+								</div>
+							</div>
 
-                            <div class="card-body pt-0">
-                                <div class="row mt-3 ">
-                                    <div id="currentmonthyear" class="d-flex justify-content-between align-items-center mb-3">
-                                        <h5></h5>
-                                    </div>
-                                    <table id="attdancetable">
-                                        <tbody>
-                                            <tr id="rowofmonths"></tr>
-                                            <tr id="daynames"></tr>
-                                            <tr id="additionalRow" style="height:50px"></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                              
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+							<div class="card-body pt-0">
+								<div class="row mt-3 ">
+									<div id="currentmonthyear" class="d-flex justify-content-between align-items-center mb-3">
+										<h5></h5>
+									</div>
+									<table id="attdancetable">
+										<tbody>
+											<tr id="rowofmonths"></tr>
+											<tr id="daynames"></tr>
+											<tr id="additionalRow" style="height:50px"></tr>
+										</tbody>
+									</table>
+								</div>
 
-        </div>
-        <!--end::Post-->
-    </div>
-    <!--end::Content-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!--end::Post-->
+	</div>
+	<!--end::Content-->
 </div>
-
 
 @section BodyEndScript {
 
     <script src="~/viewjs/Attandence.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 }

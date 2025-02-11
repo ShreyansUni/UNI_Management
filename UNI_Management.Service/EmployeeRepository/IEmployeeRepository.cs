@@ -10,7 +10,7 @@ namespace UNI_Management.Service
     public interface IEmployeeRepository
     {
 
-        List<EmployeeDTO> GetEmployeeList(string? filterFirstName, DateTime? filterJoiningDate, int pageSize, int pageIndex, string columnName, string sortDirection);
+        List<EmployeeDTO> GetEmployeeList(string? filterFirstName, DateTime? filterJoiningDate, string? filterEmployeeType, int pageSize, int pageIndex, string columnName, string sortDirection);
 
         EmployeeDTO GetEmployeenData(int EmployeeId);
         //Task DeleteEmployeeAsync(int EmployeeId);
@@ -23,6 +23,7 @@ namespace UNI_Management.Service
         bool EmployeeAddEdit(EmployeeDTO employee);
 
         Task<(bool isDeleteSuccess, string Message)> EmployeeDeleteAsync(int? employeeId);
+        List<EmployeeDTO> GetEmployeeDataWithFilter(string? filterEmployeeType, int? employeeId);
 
     }
 }

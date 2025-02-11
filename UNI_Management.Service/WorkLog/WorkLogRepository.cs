@@ -20,7 +20,10 @@ namespace UNI_Management.Service
         }
         public List<WorkLogDTO> WorkLogList(int? EmployeeId)
         {
-            var data = _context.WorkLogs.Where(a => a.EmployeeId == EmployeeId).Select(cont => new WorkLogDTO()
+            var data = _context.WorkLogs
+                               .Where(a => a.EmployeeId == EmployeeId)
+                               .OrderByDescending(cont => cont.SignOutTime)
+                               .Select(cont => new WorkLogDTO()
             {
                 workLog = cont
             }).ToList();

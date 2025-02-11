@@ -253,6 +253,28 @@ namespace UNI_Management.Common.Utility
             return value;
         }
 
+        //public static bool GetFilterPropertyBoolValue(string filterObj, string key)
+        //{
+        //    bool? value = null; // Nullable boolean to handle cases where the key is not found or the value is invalid.
+        //    var result = JsonSerializer.Deserialize<List<SelectListItem>>(filterObj);
+        //    if (result != null && result.Count() > 0)
+        //    {
+        //        foreach (var item in result)
+        //        {
+        //            if (item.Text.Equals(key, StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                if (bool.TryParse(item.Value, out bool parsedValue))
+        //                {
+        //                    value = parsedValue;
+        //                }
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    return value;
+        //}
+
+
         public static int? GetFilterPropertyValueInt(string filterObj, string key)
         {
             int? value = null;
