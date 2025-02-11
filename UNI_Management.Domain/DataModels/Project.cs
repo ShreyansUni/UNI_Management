@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace UNI_Management.DataModels;
+namespace UNI_Management.Domain.DataModels;
 
 [Table("Project")]
 public partial class Project
@@ -53,8 +53,8 @@ public partial class Project
     public string? Name { get; set; }
 
     [InverseProperty("Project")]
-    public virtual ICollection<EmployeeTask> EmployeeTasks { get; } = new List<EmployeeTask>();
+    public virtual ICollection<EmployeeTask> EmployeeTasks { get; set; } = new List<EmployeeTask>();
 
     [InverseProperty("Project")]
-    public virtual ICollection<ProjectAttachment> ProjectAttachments { get; } = new List<ProjectAttachment>();
+    public virtual ICollection<ProjectAttachment> ProjectAttachments { get; set; } = new List<ProjectAttachment>();
 }

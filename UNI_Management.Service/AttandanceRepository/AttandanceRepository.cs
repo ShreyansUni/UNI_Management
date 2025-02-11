@@ -1,8 +1,8 @@
 ﻿using UNI_Management.Common.DependencyInjection;
 using UNI_Management.Common.Utility;
-using UNI_Management.DataModels;
 using UNI_Management.Domain;
 using UNI_Management.Domain.DataContext;
+using UNI_Management.Domain.DataModels;
 using UNI_Management.Service;
 
 namespace UNI_Management.Service
@@ -45,7 +45,7 @@ namespace UNI_Management.Service
         public List<AttandenceDTO> GetAttandace(int year, int month, int E)
         {
             var list = _context.EmployeeAttendances
-                     .Where(e => e.Month == (month + 1) && e.Year == year && e.EmployeeId == E)
+                     .Where(e => e.Month == month && e.Year == year && e.EmployeeId == E)
                      .Select(cont => new AttandenceDTO()
                      {
                          employeeAttendance = cont

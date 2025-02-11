@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UNI_Management.DataModels;
 using UNI_Management.Domain.DataContext;
+using UNI_Management.Domain.DataModels;
 
 namespace UNI_Management.Service
 {

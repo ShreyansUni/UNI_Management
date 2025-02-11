@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UNI_Management.Domain;
+using UNI_Management.Helper.Mapper;
 using UNI_Management.Helper.Mapper.LeaveRequest;
 using UNI_Management.ViewModel;
 using UNIManagement.Repositories.Repository.InterFace;
@@ -22,11 +23,11 @@ namespace UNI_Management.Controllers
 
             return View(model);
         }
-        public IActionResult SubmitLeaveRequest(LeaveRequestDTO model)
+        public IActionResult SubmitLeaveRequest(LeaveRequestViewModel model)
         {
             try
             {
-                _leaveRequestRepository.SubmitLeave(model);
+                _leaveRequestRepository.SubmitLeave(model.ToModel());
                 return RedirectToAction("LeaveRequestListing");
             }
             catch (Exception ex)
@@ -38,10 +39,10 @@ namespace UNI_Management.Controllers
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
             string UserName = HttpContext.Session.GetString("Name");
-            List<LeaveRequestViewModel> model = new();
+            LeaveRequestViewModel model = new LeaveRequestViewModel();
             if (UserId != null)
             {
-                model = _leaveRequestRepository.GetLeaveRequestList(UserId).ToModel();
+                model.leaveRequestList = _leaveRequestRepository.GetLeaveRequestList(UserId).ToModel();
             }
             return View(model);
         }
@@ -50,12 +51,12 @@ namespace UNI_Management.Controllers
         {
             _leaveRequestRepository.DeleteLeaveRecord(leaveRecordID);
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
-            List<LeaveRequestViewModel> model = _leaveRequestRepository.GetLeaveRequestList(UserId).ToModel();
+            List<LeaveRequestDetails> model = _leaveRequestRepository.GetLeaveRequestList(UserId).ToModel();
             return RedirectToAction("LeaveRequestListing", model);
         }
         public IActionResult EditLeaveRequest(int leaveRequestId)
         {
-            LeaveRequestDetails model = _leaveRequestRepository.GetLeaveRecord(leaveRequestId).ToModel();
+            LeaveRequestViewModel model = _leaveRequestRepository.GetLeaveRecord(leaveRequestId).ToModel();
             return View("LeaveRequestFormPage", model);
         }
     }

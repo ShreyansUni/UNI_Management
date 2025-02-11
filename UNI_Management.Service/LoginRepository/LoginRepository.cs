@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UNI_Management.Domain.DataContext;
-using UNI_Management.DataModels;
 using Microsoft.AspNetCore.Http;
 using UNI_Management.Common.DependencyInjection;
 using UNI_Management.Service.Authentication;
+using UNI_Management.Domain.DataModels;
 namespace UNI_Management.Service;
 
 [TransientDependency(ServiceType = typeof(ILoginRepository))]

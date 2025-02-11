@@ -59,7 +59,7 @@ app.UseExceptionHandler(
                 {
                     if (!app.Environment.IsDevelopment())
                     {
-                        EmailHelper.SendMail("knowidont499@gmail.com", "RB News MVC Exception Mail " + DateTime.Now, "test.uniqueitsolution@gmail.com, meet.ponkiya@theuniqueitsolution.com");
+                        EmailHelper.SendMail("knowidont499@gmail.com", "RB News MVC Exception Mail " + DateTime.Now, "test.uniqueitsolution@gmail.com, dhorajiyabrijesh607@gmail.com");
                     }
                 }
             }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace UNI_Management.DataModels;
+namespace UNI_Management.Domain.DataModels;
 
 [Table("Employee")]
 public partial class Employee
@@ -91,14 +91,14 @@ public partial class Employee
     public string? Gender { get; set; }
 
     [InverseProperty("Employee")]
-    public virtual ICollection<EmployeeAttachment> EmployeeAttachments { get; } = new List<EmployeeAttachment>();
+    public virtual ICollection<EmployeeAttachment> EmployeeAttachments { get; set; } = new List<EmployeeAttachment>();
 
     [InverseProperty("Employee")]
-    public virtual ICollection<EmployeeTask> EmployeeTasks { get; } = new List<EmployeeTask>();
+    public virtual ICollection<EmployeeTask> EmployeeTasks { get; set; } = new List<EmployeeTask>();
 
     [InverseProperty("Employee")]
-    public virtual ICollection<LeaveRequest> LeaveRequestEmployees { get; } = new List<LeaveRequest>();
+    public virtual ICollection<LeaveRequest> LeaveRequestEmployees { get; set; } = new List<LeaveRequest>();
 
     [InverseProperty("ReportingEmployee")]
-    public virtual ICollection<LeaveRequest> LeaveRequestReportingEmployees { get; } = new List<LeaveRequest>();
+    public virtual ICollection<LeaveRequest> LeaveRequestReportingEmployees { get; set; } = new List<LeaveRequest>();
 }
