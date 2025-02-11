@@ -26,30 +26,38 @@ namespace UNI_Management.ViewModel
         {
             public int EmployeeId { get; set; }
 
+            [Required(ErrorMessage = "FirstName is Required")]
             public string FirstName { get; set; } = null!;
 
+            [Required(ErrorMessage = "MiddleName is Required")]
             public string MiddleName { get; set; } = null!;
 
+            [Required(ErrorMessage = "LastName is Required")]
             public string LastName { get; set; } = null!;
 
             public string UserName { get; set; } = null!;
 
             public string Password { get; set; } = null!;
 
+            [Required(ErrorMessage = "ContactNumber is Required")]
             public string? ContactNumber1 { get; set; }
 
             public string? ContactNumber2 { get; set; }
 
+            [Required(ErrorMessage = "Email is Required")]
             public string? Email { get; set; }
 
+            [Required(ErrorMessage = "Address is Required")]
             public string? Address { get; set; }
 
             public string? Country { get; set; }
 
             public string? State { get; set; }
 
+            [Required(ErrorMessage = "BirthDate is Required")]
             public DateTime? Birthdate { get; set; }
 
+            [Required(ErrorMessage = "Education is Required")]
             public string? Education { get; set; }
 
             public string? Photo { get; set; }
@@ -63,7 +71,7 @@ namespace UNI_Management.ViewModel
             public string? Resume { get; set; }
 
             //public IFormFile? EmployeeResume { get; set; }
-
+            [Required(ErrorMessage = "Bond is Required")]
             public string? Bond { get; set; }
 
             public bool? IsDeleted { get; set; }

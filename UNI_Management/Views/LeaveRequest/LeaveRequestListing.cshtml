@@ -24,7 +24,16 @@
                             @{
                                 int i = 0;
                             }
-                            @if (Model.leaveRequestList.Count > 0)
+                            @if (Model.TotalCount < 1)
+                            {
+                                <tr>
+                                    <td>
+                                        <h1 class="text-center text-secondary mt-2" style="margin-left:155%">No data Found</h1>
+                                    </td>
+
+                                </tr>
+                            }
+                            else
                             {
                                 @foreach (var leaverequest in Model.leaveRequestList)
                                 {
@@ -65,10 +74,6 @@
                                         </td>
                                     </tr>
                                 }
-                            }
-                            else
-                            {
-                                <tr class="d-flex w-100 justify-content-center">No Records Found</tr>
                             }
                         </tbody>
                     </table>

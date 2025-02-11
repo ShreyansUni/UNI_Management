@@ -16,7 +16,7 @@ else
         <tr class="fw-bolder fs-7 text-uppercase gs-0">
             <th class="min-w-80px">No.</th>
             <th class="min-w-80px">Subject</th>
-            <th class="min-w-125px">Message</th>
+            <th class="min-w-125px">Note</th>
             <th class="min-w-125px">SignOutTime</th>
             <th class="text-center min-w-70px">Actions</th>
         </tr>
@@ -28,18 +28,12 @@ else
         @{
             int i = 1;
         }
-        @*   @if (Model.Count < 1)
-            {
-
-                <h1 class="text-center mt-3 text-secondary">No data Found</h1>
-
-            } *@
         @foreach (var b in Model.workLogList)
         {
             <tr>
                 <td>@i</td>
                 <td>@b.Subject</td>
-                <td>@b.Message</td>
+                <td>@b.Note</td>
                 <td>@b.SignOutTime</td>
                 <td class="text-center">
                     <a href="worklog/edit/@b.WorkLogId">

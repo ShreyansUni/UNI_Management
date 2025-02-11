@@ -19,8 +19,11 @@ namespace UNI_Management.Controllers
 
         public IActionResult Index()
         {
+            int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
+            string UserName = HttpContext.Session.GetString("Name");
             WorkLogViewModal wl = new WorkLogViewModal();
-            wl.workLogList = _worklogRepository.WorkLogList(131).ToModel();
+            if(UserId != null)
+                wl.workLogList = _worklogRepository.WorkLogList(131).ToModel();
             return View(wl);
         }
         [HttpGet, Route("worklog/edit/{worklogid}", Name = "UserAddEditModal")]

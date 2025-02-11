@@ -20,7 +20,7 @@
     <p>Joinningdate : @Model.Joinningdate </p>
     <p>IsFresher : @Model.IsFresher </p>
     <p>Resume : @Model.Resume</p>
-    <p>Bond : @Model.Bond</p>
+    <p>Bond : @Html.Raw(WebUtility.HtmlDecode(Model.Bond))</p>
     <p>Employeetype : @Model.EmployeeType</p>
     <p>EmployeeAttachmentId : @Model.EmployeeAttachmentId</p>
     <p>IsAdhar : @Model.IsAdhar</p>

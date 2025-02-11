@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,11 @@ namespace UNI_Management.ViewModel
 
             public int? EmployeeId { get; set; }
 
-            public string? Message { get; set; }
-            public string? Subject { get; set; }
+            [Required(ErrorMessage = "Note is required")]
+            public string Note { get; set; }
+
+            [Required(ErrorMessage = "Subject is required")]
+            public string Subject { get; set; }
 
             public DateTime? SignOutTime { get; set; }
 
