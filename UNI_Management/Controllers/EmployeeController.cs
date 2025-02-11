@@ -10,6 +10,7 @@ using UNI_Management.Helper;
 using static UNI_Management.ViewModel.EmployeeViewModel;
 using UNI_Management.Domain;
 using static QRCoder.PayloadGenerator;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace UNI_Management.Controllers
 {
@@ -34,7 +35,12 @@ namespace UNI_Management.Controllers
                 EmployeeViewModel model = new EmployeeViewModel();
                 model.PageIndex = ConfigItems.DefaultPageNumber;
                 model.PageSize = ConfigItems.DefaultPageSize;
-                model.employeeList = _employeeRepository.GetEmployeeList(null, null, model.PageSize, model.PageIndex, string.Empty, string.Empty).ToModel();
+                model.employeeList = _employeeRepository.GetEmployeeList(null, null, null, model.PageSize, model.PageIndex, string.Empty, string.Empty).ToModel();
+                ViewBag.EmpTypeDropDown = new List<SelectListItem>
+                                            {
+                                                new SelectListItem { Value = "BDA", Text = "BDA" },
+                                                new SelectListItem { Value = "Technical", Text = "Technical" }
+                                            };
                 return View(model);
             }
             catch (Exception ex)
@@ -56,9 +62,12 @@ namespace UNI_Management.Controllers
 
                 var filterFirstName = string.Empty;
                 var filterJoiningDate = string.Empty;
+                var filterEmployeeType = string.Empty;
+
                 if (!string.IsNullOrEmpty(filterObj))
                 {
                     filterFirstName = CommonHelper.GetFilterPropertyValue(filterObj, "txtFirstName").Trim();
+                    filterEmployeeType = CommonHelper.GetFilterPropertyValue(filterObj, "EmployeeTypefilter").Trim();
                     filterJoiningDate = CommonHelper.GetFilterPropertyValue(filterObj, "txtJoiningDate").Trim();
                 }
                 DateTime? parsedDate = null;
@@ -71,7 +80,16 @@ namespace UNI_Management.Controllers
                     }
                 }
 
-                model.employeeList = _employeeRepository.GetEmployeeList(filterFirstName, parsedDate, pageSize, pageIndex, columnName, sortDirection).ToModel();
+                //bool? isActive = null;
+                //if (!string.IsNullOrEmpty(filterIsActive))
+                //{
+                //    if (bool.TryParse(filterIsActive, out bool result))
+                //    {
+                //        isActive = result;
+                //    }
+                //}
+
+                model.employeeList = _employeeRepository.GetEmployeeList(filterFirstName, parsedDate, filterEmployeeType, pageSize, pageIndex, columnName, sortDirection).ToModel();
                 return PartialView("_EmployeeGrid", model);
             }
             catch (Exception ex)
@@ -114,16 +132,16 @@ namespace UNI_Management.Controllers
                 EmployeeViewModel employee = new EmployeeViewModel();
                 if (string.IsNullOrEmpty(encodeEmployeeId))
                 {
-                     employee.employeeDetails = new EmployeeViewModel.EmployeeDetails();
+                    employee.employeeDetails = new EmployeeViewModel.EmployeeDetails();
                 }
                 else
                 {
                     int? Id = encodeEmployeeId.Decode();
                     employee.employeeDetails = _employeeRepository.GetEmployeenData((int)Id).ToModel();
                 }
-                return View("EmployeeForm",employee);
+                return View("EmployeeForm", employee);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Exception in InventoryRequestOpenRequest");
                 return Json(JsonResultData.SetJsonModel(Enums.StatusCode.BadRequest.GetHashCode(), "Something went wrong. Please try again!"));
@@ -136,7 +154,7 @@ namespace UNI_Management.Controllers
         {
             try
             {
-                if(model == null)
+                if (model == null)
                 {
                     return BadRequest("Invalid Employee Data");
                 }
