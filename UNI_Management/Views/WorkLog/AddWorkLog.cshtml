@@ -3,23 +3,17 @@
 <!--begin::Content-->
 
 <div class="d-flex flex-column flex-column-fluid" id="kt_content">
-
-    <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
-        <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
             <form id="employeeForm" asp-action="AddEdit" asp-controller="WorkLog" method="post" enctype="multipart/form-data">
-
                 <div class="row">
                     <div class="col-md-12">
-                        <!--begin::Card-->
                         <div class="card">
                             <div class="row p-5">
                                 <div class="col-md-6">
                                     <h1>WorkLog Add</h1>
                                 </div>
                                 <div class="col-md-6 text-end">
-
                                     <a class="btn btn-outline-primary rounded-2 border border-primary" onclick="history.back()">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
@@ -27,51 +21,77 @@
                                     </a>
                                 </div>
                             </div>
-                         
-                            <!--begin::Card body-->
+
                             <div class="card-body pt-5">
                                 <div class="row">
                                     <div class="form-group">
                                         <input type="hidden" asp-for="workLogDetails.WorkLogId" class="form-control" />
                                     </div>
-                                    
+                                    <!-- Subject Field -->
                                     <div class="col-md-12">
                                         <label asp-for="workLogDetails.Subject">Subject</label>
-                                        <input type="tel" asp-for="workLogDetails.Subject" class="form-control" />
+                                        <input type="text" asp-for="workLogDetails.Subject" class="form-control" />
                                         <span asp-validation-for="workLogDetails.Subject" class="text-danger"></span>
                                     </div>
-                                   
-                                   
                                 </div>
-                                <div class="row pt-5">
 
+                                <!-- Date Field -->
+                                @* <div class="row pt-4">
+                                    <div class="col-md-6">
+                                        <label asp-for="workLogDetails.WorkDate">Work Date</label>
+                                        <input type="date" asp-for="workLogDetails.WorkDate" class="form-control" />
+                                        <span asp-validation-for="workLogDetails.WorkDate" class="text-danger"></span>
+                                    </div>
+                                    <!-- Hours Spent Field -->
+                                    <div class="col-md-6">
+                                        <label asp-for="workLogDetails.HoursSpent">Hours Spent</label>
+                                        <input type="number" asp-for="workLogDetails.HoursSpent" class="form-control" />
+                                        <span asp-validation-for="workLogDetails.HoursSpent" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Project Selection -->
+                                <div class="row pt-4">
+                                    <div class="col-md-6">
+                                        <label asp-for="workLogDetails.ProjectId">Project</label>
+                                        <select asp-for="workLogDetails.ProjectId" class="form-control">
+                                            <option value="">Select Project</option>
+                                        </select>
+                                        <span asp-validation-for="workLogDetails.ProjectId" class="text-danger"></span>
+                                    </div>
+                                    <!-- Work Category -->
+                                    <div class="col-md-6">
+                                        <label asp-for="workLogDetails.Category">Category</label>
+                                        <select asp-for="workLogDetails.Category" class="form-control">
+                                            <option value="">Select Category</option>
+                                            <option value="Development">Development</option>
+                                            <option value="Testing">Testing</option>
+                                            <option value="Meeting">Meeting</option>
+                                            <option value="Research">Research</option>
+                                        </select>
+                                        <span asp-validation-for="workLogDetails.Category" class="text-danger"></span>
+                                    </div>
+                                </div >*@
+
+                                <!-- Note Field -->
+                                <div class="row pt-4">
                                     <div class="col-md-12">
                                         <label asp-for="workLogDetails.Note">Note</label>
                                         <textarea asp-for="workLogDetails.Note" class="form-control"></textarea>
                                         <span asp-validation-for="workLogDetails.Note" class="text-danger"></span>
                                     </div>
-                                   
                                 </div>
-                              
-                            </div>
-                            <!--end::Card body-->
-                        </div>
-                        <!--end::Card-->
-                    </div>
-                </div>
 
-
-             
-                 <div class="form-group pt-5 text-center">
+                                <div class="form-group pt-5 text-center">
                                     <button type="reset" class="btn btn-danger">Reset</button>
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
-        <!--end::Container-->
     </div>
-    <!--end::Post-->
 </div>
-<!--end::Content-->
 
-                                   

@@ -48,14 +48,14 @@ namespace UNI_Management.Controllers
                 }
                 else
                 {
-                    //_notyf.Error("Enter correct credentials!");
-                    return RedirectToAction("Index");
+                    TempData["ErrorMessage"] = "Invalid email or password. Please try again.";
+                    return RedirectToAction("Index", userModel);
                 }
             }
             else
             {
-                //_notyf.Error("Enter correct credentials!");
-                return View("Index", User);
+                TempData["ErrorMessage"] = "Please fill in all required fields.";
+                return View("Index", userModel);
             }
         }
 

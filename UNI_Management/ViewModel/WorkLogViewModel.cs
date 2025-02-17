@@ -24,13 +24,33 @@ namespace UNI_Management.ViewModel
         {
             public int WorkLogId { get; set; }
 
+            [Required(ErrorMessage = "Employee ID is required")]
             public int? EmployeeId { get; set; }
 
-            [Required(ErrorMessage = "Note is required")]
-            public string Note { get; set; }
+            public string EmployeeName { get; set; }
 
             [Required(ErrorMessage = "Subject is required")]
+            [StringLength(100, ErrorMessage = "Subject cannot exceed 100 characters")]
             public string Subject { get; set; }
+
+            [Required(ErrorMessage = "Note is required")]
+            [StringLength(500, ErrorMessage = "Note cannot exceed 500 characters")]
+            public string Note { get; set; }
+
+            [Required(ErrorMessage = "Work date is required")]
+            public DateTime? WorkDate { get; set; }
+
+            [Required(ErrorMessage = "Hours spent is required")]
+            [Range(0.1, 24, ErrorMessage = "Hours spent must be between 0.1 and 24")]
+            public decimal? HoursSpent { get; set; }
+
+            [Required(ErrorMessage = "Project selection is required")]
+            public int? ProjectId { get; set; }
+
+            public string ProjectName { get; set; }
+
+            [Required(ErrorMessage = "Category is required")]
+            public string Category { get; set; }
 
             public DateTime? SignOutTime { get; set; }
 
