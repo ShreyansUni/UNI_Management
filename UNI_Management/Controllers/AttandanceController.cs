@@ -36,7 +36,8 @@ namespace UNI_Management.Controllers
         }
         public IActionResult SaveAttendance(int day, int month, int year, short status)
         {
-            _attandanceRepository.AddAttandance(day, month, year, status);
+            int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
+            _attandanceRepository.AddAttandance(day, month, year, status, UserId);
             return Ok(new { message = "Attendance saved successfully" });
         }
         #endregion

@@ -13,8 +13,8 @@
     }
 }
 
-
-<table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+<div class ="container-fluid mt-4">
+    <table class="table rounded text-center table-bordered border border-1 table-striped" id="kt_customers_table">
     <!--begin::Table head-->
     <thead>
         <!--begin::Table row-->
@@ -110,7 +110,7 @@
     </tbody>
     <!--end::Table body-->
 </table>
-
+</div>
 @if (Model.TotalCount > 1)
 {
     <partial name="_Partial_Layout_Pagination" model="Model" view-data='@new ViewDataDictionary(ViewData) {     { "GridName", gridName },  { "urlGridPaginationName", gridUrl }  }' />

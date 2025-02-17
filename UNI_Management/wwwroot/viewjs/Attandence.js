@@ -5,7 +5,8 @@
     var currentMonth = (new Date()).getMonth();
     startYear = 2021;
     endYear = currentYear;
-    // year dropdown
+
+    // Year dropdown
     for (i = startYear; i <= endYear; i++) {
         newOption = document.createElement("option");
         newOption.value = i;
@@ -15,7 +16,8 @@
         }
         dropdownYear.appendChild(newOption);
     }
-    // arguments month and year wise
+
+    // Change month or year
     $('#month, #dropdownYear').change(function () {
         let year = $('#dropdownYear').val();
         let month = $('#month').val();
@@ -24,29 +26,37 @@
 
     $('#month').val(currentMonth);
 
-
-
+    // Generate Calendar
     function generateCalendar(year, month) {
-
         let date = new Date(year, month);
         let dayone = new Date(year, month, 1).getDay();
-        //  let lastdate = new Date(year, month, 0).getDate();
-        //  let parsedMonth = parseInt(month, 10);
         let lastdate = new Date(year, parseInt(month) + 1, 0).getDate();
-        let dayend = new Date(year, month, lastdate).getDay();
         let dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-        // print header Month- Year
+
+        // Print header Month-Year
         let monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         $("#currentmonthyear").html(`<th colspan="7">${monthNames[month]}-${year}</th>`);
+
         let lit = "";
-        // print date and day
+        // Print date and day
         for (let i = 1; i <= lastdate; i++) {
             let dayIndex = (dayone + i - 1) % 7;
-            lit += `<td class="border border-dark text-center w-10"><a value="${i}">${i}<br>${dayNames[dayIndex]}</a></td>`;
+            let cellClass = "border border-dark text-center w-10";
+
+            // Get current date and compare
+            let currentDate = new Date();
+            let targetDate = new Date(year, month, i);
+            
+            // If the target date is in the past, disable interaction
+            if (targetDate < currentDate) {
+                cellClass += " disabled"; // Add a "disabled" class to style or disable
+            }
+
+            lit += `<td class="${cellClass}" data-day="${i}"><a value="${i}">${i}<br>${dayNames[dayIndex]}</a></td>`;
         }
         $("#rowofmonths").html(lit);
 
-
+        // Get attendance data via AJAX
         $.ajax({
             url: '/Attandance/GetAttandaceForMonth',
             type: 'GET',
@@ -55,14 +65,11 @@
                 year: year,
             },
             success: function (response) {
-                console.log(response);
-
                 let lit2 = "";
 
                 for (let i = 1; i <= lastdate; i++) {
-
-                    let attendance = response.find(a => a.day === i)
-                    console.log(attendance);
+                    let attendance = response.find(a => a.day === i);
+                    let statusText = ' ';
 
                     if (attendance) {
                         if (attendance.status === 1) {
@@ -72,13 +79,10 @@
                         } else if (attendance.status === 3) {
                             statusText = 'HL';
                         }
-                    } else {
-                        statusText = ' '; // Optionally, handle days with no data
                     }
 
                     lit2 += `<td class="border border-dark text-center atte">${statusText}</td>`;
                 }
-
                 $("#additionalRow").html(lit2);
             },
             error: function (error) {
@@ -86,40 +90,55 @@
             }
         });
 
-
-
-
-        //click on button print date
+        // Click on button to print date
         $('#attdancetable').on('click', '.atte', function () {
             let index = $(this).index() + 1;
-            console.log(' Date : ' + index + '/ ' + (parseInt(month) + 1) + '/ ' + year);
-            showDropdown(this, index, parseInt(month) + 1, year);
-
-        });
-
-        $(document).click(function (event) {
-            if (!$(event.target).closest('.atte').length) {
-                $('.dropdowndata').remove();
+            let selectedDate = new Date(year, month, index);
+            let currentDate = new Date();
+            let selectedDateString = selectedDate.toDateString(); // This will give you the date part in a human-readable format
+            let currentDateString = currentDate.toDateString();  
+            
+            if (selectedDateString >= currentDateString) {  // Allow editing of the current and future dates
+                showDropdown(this, index, month, year);
             }
         });
     }
 
-
-
-
     generateCalendar(currentYear, new Date().getMonth());
 
-    function showDropdown(cell, index, month, year, status) {
-
+    // Show dropdown with dynamic options based on date
+    function showDropdown(cell, index, month, year) {
         // Remove any existing dropdowns
         $('.dropdowndata').remove();
-        debugger
+
+        // Get the current date and compare it with the selected date
+        let currentDate = new Date();
+        let targetDate = new Date(year, month, index);
+        
+        // Determine dropdown options based on the date (past, present, or future)
+        let dropdownOptions = '';
+        
+        // Check if the selected date is today
+        if (targetDate.toDateString() === currentDate.toDateString()) {
+            // Today's date: Show all options (Present, Absent, Half Leave)
+            dropdownOptions = `
+                <a href="#" class="drp" data-value="1">Present</a>
+                <a href="#" class="drp" data-value="2">Absent</a>
+                <a href="#" class="drp" data-value="3">Half Leave</a>
+            `;
+        } else{
+            // Past dates: Do not show dropdown (disabled)
+            return; // Simply return to prevent showing the dropdown for past dates
+        } 
+
         // Create the dropdown menu
-        let dropdown = `<div class="dropdown"> <div class="dropdowndata" style="display: none; position: absolute;">
-            <a href="#" class="drp" data-value="1">Present</a>
-            <a href="#" class="drp" data-value="2">Absent</a>
-            <a href="#" class="drp" data-value="3">Half Leave</a>
-          </div></div>`;
+        let dropdown = `
+            <div class="dropdown">
+                <div class="dropdowndata" style="display: none; position: absolute;">
+                    ${dropdownOptions}
+                </div>
+            </div>
+        `;
 
         // Append the dropdown to the cell
         $(cell).append(dropdown);
@@ -136,7 +155,7 @@
             $(this).closest('td').text(status); // Optionally, replace cell content with status
             $('.dropdowndata').remove(); // Remove the dropdown
 
-
+            // Save attendance status via AJAX
             $.ajax({
                 url: '/Attandance/SaveAttendance',
                 type: 'GET',
@@ -147,8 +166,7 @@
                     status: value
                 },
                 success: function (response) {
-                    console.log(data);
-
+                    console.log(response);
                     $('.dropdowndata').remove(); // Remove the dropdown
                 },
                 error: function (error) {
@@ -157,5 +175,4 @@
             });
         });
     }
-
 });

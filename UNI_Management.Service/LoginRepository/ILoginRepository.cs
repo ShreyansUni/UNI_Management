@@ -10,5 +10,7 @@ namespace UNI_Management.Service
     public interface ILoginRepository
     {
         public Employee? GetUser(string email, string password);
+
+        public bool checkEmail(string email);
     }
 }

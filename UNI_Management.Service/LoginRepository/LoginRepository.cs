@@ -27,4 +27,10 @@ public class LoginRepository : ILoginRepository
         Employee user = _context.Employees.FirstOrDefault(emp => emp.Email == email && emp.Password == password);
         return user;
     }
+
+    public bool checkEmail(string email)
+    {
+
+        return false;
+    }
 }

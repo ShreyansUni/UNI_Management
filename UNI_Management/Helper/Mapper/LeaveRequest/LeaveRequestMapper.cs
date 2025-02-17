@@ -43,7 +43,7 @@ namespace UNI_Management.Helper.Mapper.LeaveRequest
                 .ForPath(dest => dest.leaveRequestDetails.LeaveID, mo => mo.MapFrom(src => src.leaveRequest.LeaveRequestId))
                 .ForPath(dest => dest.leaveRequestDetails.LeaveRequestorID, mo => mo.MapFrom(src => src.leaveRequest.EmployeeId))
                 .ForPath(dest => dest.leaveRequestDetails.LeaveResponsorID, mo => mo.MapFrom(src => src.leaveRequest.ReportingEmployeeId))
-                .ForPath(dest => dest.leaveRequestDetails.LeaveRequestorName, mo => mo.MapFrom(src => src.leaveRequest.LeaveRequestId))
+                .ForPath(dest => dest.leaveRequestDetails.LeaveRequestorName, mo => mo.MapFrom(src => src.LeaveRequestorName))
                 .ForPath(dest => dest.leaveRequestDetails.ReasonForLeave, mo => mo.MapFrom(src => src.leaveRequest.ReasonForLeave))
                 .ForPath(dest => dest.leaveRequestDetails.LeaveStartDate, mo => mo.MapFrom(src => src.leaveRequest.LeaveStartDate))
                 .ForPath(dest => dest.leaveRequestDetails.LeaveStartType, mo => mo.MapFrom(src => src.leaveRequest.LeaveStartDateDuration))

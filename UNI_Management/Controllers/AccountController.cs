@@ -59,15 +59,32 @@ namespace UNI_Management.Controllers
             }
         }
 
+        #region ChangePassword
+        public IActionResult ChangePasswordView()
+        {
+            return View("ChangePassword");
+        }
         public IActionResult ChangePassword()
         {
             return View();
         }
+        #endregion
 
+        #region ForgotPassword
         public IActionResult ForgotPassword()
         {
             return View();
         }
+
+        public IActionResult ForgetPassword(string email)
+        {
+            if (email!=null)
+            {
+                bool isValid = _loginRepository.checkEmail(email);
+            }
+            return RedirectToAction("ChangePasswordView");
+        }
+        #endregion
 
         public IActionResult TwoFactorAuthentication()
         {

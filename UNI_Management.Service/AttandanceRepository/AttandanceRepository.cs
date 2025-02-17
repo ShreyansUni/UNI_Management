@@ -19,12 +19,12 @@ namespace UNI_Management.Service
         #endregion
 
         #region Add
-        public void AddAttandance(int day, int month, int year, short status)
+        public void AddAttandance(int day, int month, int year, short status, int UserId)
         {
             try
             {
                 var EmpAttandace = new EmployeeAttendance();
-                EmpAttandace.EmployeeId = 131;
+                EmpAttandace.EmployeeId = UserId;
                 EmpAttandace.Status = status;
                 EmpAttandace.Day = day;
                 EmpAttandace.Month = month;

@@ -372,7 +372,7 @@ function showLogoutConfirmation() {
                 'You have been logged out successfully.',
                 'success'
             ).then(function () {
-                window.location.href = "Account/Index"; // Redirect to log out action in your Account controller
+                window.location.href = "/Account/Index"; 
             });
         }
     });

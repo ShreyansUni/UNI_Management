@@ -9,7 +9,7 @@ namespace UNI_Management.Service
 {
     public interface IAttandanceRepository
     {
-        public void AddAttandance(int day, int month, int year, short status);
+        public void AddAttandance(int day, int month, int year, short status,int UserId);
         List<AttandenceDTO> GetAttandace(int year, int month,int EmployeeId);
     }
 }
