@@ -3,7 +3,7 @@
 @{
     var demo = Model;
 }
- <div class="row p-2" id="filter">
+<div class="row p-2" id="filter">
     <div class="col-md-12">
         <div class="row pb-5">
             <div class="col-md-12">
@@ -28,12 +28,12 @@
                         <label for="txtToDate">To Date</label>
                     </div>
                 </div>
-                
+
                 <div class="col-md-3 my-3">
                     <button class="btn btn-primary">Search</button>
                     <button class="btn btn-dark">Clear</button>
                 </div>
-            </div>
+            </div>   
         </div>
     </div>
 </div>
@@ -52,7 +52,7 @@
                     <div class="col-2"><h3>Avg.Working Time:</h3></div>
                     <div class="col-2"></div>
                 </div>
-                
+
                 <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
                     <thead class="table-active table-hover text-center">
                         <!--begin::Table row-->
@@ -64,7 +64,7 @@
                             <th class="min-w-125px">SignOutTime</th>
                             <th class="min-w-125px">WorkingHours</th>
                             <th class="min-w-125px">WorklogNotes</th>
-                            <th class="text-center min-w-70px">Actions</th>
+                            @* <th class="text-center min-w-70px">Actions</th> *@
                         </tr>
                         <!--end::Table row-->
                     </thead>
@@ -73,19 +73,53 @@
                     <tbody class="fw-bold text-gray-600">
                         @if (Model.timeSheetDetailsList != null && Model.timeSheetDetailsList.Any())
                         {
+                            int i = 0;
                             @foreach (var data in Model.timeSheetDetailsList)
                             {
                                 var workLogDetail = data.WorkLogDetails.FirstOrDefault();
                                 var attandenceDetail = data.AttandenceDetails.FirstOrDefault();
                                 <tr class="">
-                                    <td class="min-w-80px"></td>
-                                    <td class="min-w-80px">@workLogDetail.CreatedDate</td>
-                                    <td class="min-w-125px">@attandenceDetail.Status</td>
+                                    <td class="min-w-80px">@(++i)</td>
+                                    <td class="min-w-80px">@attandenceDetail.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                                    <td class="min-w-125px">
+                                        @{
+                                            var statusText = attandenceDetail.Status switch
+                                            {
+                                                1 => "Present",
+                                                2 => "Absent",
+                                                3 => "Half Leave",
+                                                _ => "Unknown"
+                                            };
+                                        }
+                                        @statusText
+                                    </td>
+
                                     <td class="min-w-125px">@attandenceDetail.CreatedDate</td>
                                     <td class="min-w-125px">@workLogDetail.SignOutTime</td>
-                                    <td class="min-w-125px"></td>
+                                    <td class="min-w-125px">
+                                        @{
+                                            // Use DateTime.MinValue if either CreatedDate or SignOutTime is null
+                                            var signInTime = attandenceDetail.CreatedDate ?? DateTime.MinValue;
+                                            var signOutTime = workLogDetail.SignOutTime ?? DateTime.MinValue;
+
+                                            if (signInTime != DateTime.MinValue && signOutTime != DateTime.MinValue)
+                                            {
+                                                // Calculate the working hours
+                                                var workingDuration = signOutTime - signInTime;
+                                                var workingHours = workingDuration.TotalHours;
+
+                                                // Display the result with 2 decimal points
+                                                @workingHours.ToString("F2")
+                                            }
+                                            else
+                                            {
+                                                @:N/A  // If either CreatedDate or SignOutTime is null
+                                            }
+                                        }
+                                    </td>
+
                                     <td class="min-w-125px">@workLogDetail?.Note</td>
-                                    <td class="text-center min-w-70px">Actions</td>
+                                    @* <td class="text-center min-w-70px">Actions</td> *@
                                 </tr>
                             }
                         }

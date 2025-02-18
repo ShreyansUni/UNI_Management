@@ -23,7 +23,7 @@ namespace UNI_Management.Controllers
             string UserName = HttpContext.Session.GetString("Name");
             WorkLogViewModal wl = new WorkLogViewModal();
             if(UserId != null)
-                wl.workLogList = _worklogRepository.WorkLogList(131).ToModel();
+                wl.workLogList = _worklogRepository.WorkLogList(UserId).ToModel();
             return View(wl);
         }
         [HttpGet, Route("worklog/edit/{worklogid}", Name = "UserAddEditModal")]
@@ -39,7 +39,20 @@ namespace UNI_Management.Controllers
         }
         public async Task<IActionResult> AddEdit(WorkLogViewModal model)
         {
+            int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
+            if (UserId != -1) { 
+                model.workLogDetails.EmployeeId = UserId;
+            }
+            else{
+                return RedirectToAction("Index");
+            }
             var (isSuccess, Message) = await _worklogRepository.WorkLogAdd(model.ToModel());
+            if (isSuccess) {
+                AddSweetAlertSuccessPopup(Message);
+            }
+            else{
+                AddSweetAlertErrorPopup(Message);
+            }
             return RedirectToAction("Index");
         }
     }

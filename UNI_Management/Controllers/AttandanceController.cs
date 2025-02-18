@@ -22,8 +22,9 @@ namespace UNI_Management.Controllers
 
         #region GetAttandace
         public IActionResult GetAttandaceForMonth(int year, int month,int EmployeeId)
-        {           
-            var v =  _attandanceRepository.GetAttandace((int)year, (int)month, EmployeeId = 131).ToModel();
+        {
+            int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
+            var v =  _attandanceRepository.GetAttandace((int)year, (int)month, UserId).ToModel();
             return Json(v);
         }
         #endregion

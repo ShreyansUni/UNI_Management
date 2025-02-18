@@ -31,10 +31,12 @@ namespace UNI_Management.ViewModel
 
             [Required(ErrorMessage = "Subject is required")]
             [StringLength(100, ErrorMessage = "Subject cannot exceed 100 characters")]
+            [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "Subject cannot be only whitespace.")]
             public string Subject { get; set; }
 
             [Required(ErrorMessage = "Note is required")]
             [StringLength(500, ErrorMessage = "Note cannot exceed 500 characters")]
+            [RegularExpression(@"^(?!\s*$).+", ErrorMessage = "Note cannot be only whitespace.")]
             public string Note { get; set; }
 
             [Required(ErrorMessage = "Work date is required")]

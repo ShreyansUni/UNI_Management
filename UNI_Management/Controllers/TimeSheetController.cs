@@ -24,7 +24,7 @@ namespace UNI_Management.Controllers
                 TimeSheetViewModel timeSheetViewModel = new TimeSheetViewModel();
                 timeSheetViewModel.timeSheetDetailsList = _timeSheetRepository.GetTimeSheetData(UserId).ToModel();
 
-                return View(timeSheetViewModel);
+                return View("_TimeSheetList", timeSheetViewModel);
             }
             catch (Exception ex)
             {

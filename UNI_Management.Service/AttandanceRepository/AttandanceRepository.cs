@@ -23,15 +23,33 @@ namespace UNI_Management.Service
         {
             try
             {
-                var EmpAttandace = new EmployeeAttendance();
-                EmpAttandace.EmployeeId = UserId;
-                EmpAttandace.Status = status;
-                EmpAttandace.Day = day;
-                EmpAttandace.Month = month;
-                EmpAttandace.Year = year;
-                EmpAttandace.Created = DateTime.Now;
+                if(DateTime.Now.Day == day)
+                {
+                    var existingAttendance = _context.EmployeeAttendances
+                                            .Where(e => e.Day == day && e.EmployeeId == UserId).FirstOrDefault();
+                    if (existingAttendance == null) {
+                        var EmpAttandace = new EmployeeAttendance();
+                        EmpAttandace.EmployeeId = UserId;
+                        EmpAttandace.Status = status;
+                        EmpAttandace.Day = day;
+                        EmpAttandace.Month = month;
+                        EmpAttandace.Year = year;
+                        EmpAttandace.Created = DateTime.Now;
 
-                _context.EmployeeAttendances.Add(EmpAttandace);
+                        _context.EmployeeAttendances.Add(EmpAttandace);
+                    }
+                    else
+                    {
+                        existingAttendance.Status = status;
+                        existingAttendance.Day = day;
+                        existingAttendance.Month = month;
+                        existingAttendance.Year = year;
+                        existingAttendance.Modified = DateTime.Now;
+
+                        _context.EmployeeAttendances.Update(existingAttendance);
+                    }
+                }
+                
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -45,7 +63,7 @@ namespace UNI_Management.Service
         public List<AttandenceDTO> GetAttandace(int year, int month, int E)
         {
             var list = _context.EmployeeAttendances
-                     .Where(e => e.Month == (month+1) && e.Year == year && e.EmployeeId == E)
+                     .Where(e => e.Month == (month) && e.Year == year && e.EmployeeId == E)
                      .Select(cont => new AttandenceDTO()
                      {
                          employeeAttendance = cont

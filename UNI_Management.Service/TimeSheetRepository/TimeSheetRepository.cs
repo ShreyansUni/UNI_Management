@@ -32,14 +32,19 @@ namespace UNI_Management.Service.TimeSheetRepository
                 return new List<TimeSheetDTO>();
             }
 
-            var timeSheetDTOList = (from workLog in workLogs
-                                    join attendance in attendances on workLog.EmployeeId equals attendance.EmployeeId
-                                    where workLog.EmployeeId == UserId && attendance.EmployeeId == UserId 
+            var timeSheetDTOList = (from attendance in attendances
+                                    join workLog in workLogs
+                                    on attendance.EmployeeId equals workLog.EmployeeId into workLogGroup
+                                    from workLog in workLogGroup.DefaultIfEmpty()  
+                                    where attendance.EmployeeId == UserId
                                     select new TimeSheetDTO
                                     {
-                                        workLog = workLog,
+                                        workLog = workLog,  
                                         attandence = attendance
                                     }).ToList();
+
+
+
 
             return timeSheetDTOList;
         }   
