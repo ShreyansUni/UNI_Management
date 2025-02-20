@@ -125,6 +125,7 @@ namespace UNI_Management.Service
                     {
                         UserName = employee.Employee.Email,
                         Password = $"{employee.Employee.FirstName}@{DateTime.Now:dd_MM_yyyy}",
+                        //
                         FirstName = employee.Employee.FirstName,
                         LastName = employee.Employee.LastName,
                         Email = employee.Employee.Email,
