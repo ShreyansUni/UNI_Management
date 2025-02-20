@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using UNI_Management.Helper.Mapper;
 using UNI_Management.Helper.Mapper.WorkLog;
 using UNI_Management.Service;
