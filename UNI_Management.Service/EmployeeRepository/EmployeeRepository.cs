@@ -125,7 +125,7 @@ namespace UNI_Management.Service
                     var newEmployee = new Employee
                     {
                         UserName = employee.Employee.Email,
-                        Password = employee.Employee.FirstName,
+                        Password = $"{employee.Employee.FirstName}@{DateTime.Now:dd_MM_yyyy}",
                         FirstName = employee.Employee.FirstName,
                         LastName = employee.Employee.LastName,
                         Email = employee.Employee.Email,
@@ -174,12 +174,12 @@ namespace UNI_Management.Service
                     string newEmployeeEmailBody = "A new employee has been created with the following details:<br><br>"
                                                 + "Name: " + newEmployee.FirstName + " " + newEmployee.LastName + "<br>"
                                                 + "UserName: " + newEmployee.Email + "<br>"
-                                                + "Password: " + newEmployee.FirstName + "<br>"
+                                                + "Password: " + newEmployee.Password + "<br>"
                                                 + "Education: " + newEmployee.Education + "<br>"
                                                 + "Employee Type: " + newEmployee.EmployeeType + "<br><br>"
                                                 + "Please verify the details.";
 
-                    EmailHelper.SendMail("dhorajiyabrijesh607@gmail.com", newEmployeeEmailSubject, newEmployeeEmailBody);
+                    EmailHelper.SendMail(newEmployee.Email, newEmployeeEmailSubject, newEmployeeEmailBody);
 
                     return true;
 
