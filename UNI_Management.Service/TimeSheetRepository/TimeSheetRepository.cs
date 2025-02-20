@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,13 @@ namespace UNI_Management.Service.TimeSheetRepository
     {
         #region Constructor
         private readonly ApplicationDbContext _context;
+        //private readonly AttandanceRepository _attandanceRepository;
+        //private readonly WorkLogRepository _workLogRepository;
         public TimeSheetRepository(ApplicationDbContext context)
         {
             _context = context;
+            //_attandanceRepository = attandanceRepository;
+            //_workLogRepository = workLogRepository;
         }
         #endregion
 
@@ -47,7 +52,56 @@ namespace UNI_Management.Service.TimeSheetRepository
 
 
             return timeSheetDTOList;
-        }   
+        }
         #endregion
+
+        //#region UpdateTimesheetdata
+
+        //public async Task UpdateTimeSheet(int UserId)
+        //{
+        //    var attadanceData = await _attandanceRepository.GetAttendanceForUser(UserId);
+        //    var worklogData = await _workLogRepository.GetWorkLogForUser(UserId);
+
+        //}
+        //#endregion
+
+        //public async Task UpdateTimeSheetData(int UserId)
+        //{
+        //    if (UserId == -1)
+        //        return;
+
+        //    var attendanceData = await _context.EmployeeAttendances
+        //                                       .Where(a => a.EmployeeId == UserId)
+        //                                       .ToListAsync();
+
+        //    var worklogData = await _context.WorkLogs
+        //                                    .Where(w => w.EmployeeId == UserId)
+        //                                    .ToListAsync();
+
+        //    var timeSheet = await _context
+        //                                  .FirstOrDefaultAsync(t => t.EmployeeId == UserId);
+
+        //    if (timeSheet == null)
+        //    {
+        //        timeSheet = new TimeSheet
+        //        {
+        //            EmployeeId = UserId,
+        //            CreatedDate = DateTime.UtcNow
+        //        };
+        //        _context.TimeSheets.Add(timeSheet);
+        //    }
+
+        //    // Calculate total hours worked from work logs
+        //    timeSheet.TotalHoursWorked = worklogData.Sum(w => w.Hours);
+
+        //    // Count attendance days marked as '1' (Present)
+        //    timeSheet.TotalDaysPresent = attendanceData.Count(a => a.Status == 1);
+
+        //    // Update last modified date
+        //    timeSheet.LastUpdatedDate = DateTime.UtcNow;
+
+        //    await _context.SaveChangesAsync();
+        //}
+
     }
 }

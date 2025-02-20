@@ -1,4 +1,5 @@
-﻿using UNI_Management.Common.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using UNI_Management.Common.DependencyInjection;
 using UNI_Management.Common.Utility;
 using UNI_Management.Domain;
 using UNI_Management.Domain.DataContext;
@@ -73,5 +74,13 @@ namespace UNI_Management.Service
             return list;
         }
         #endregion
+
+        //public async Task<List<EmployeeAttendance>> GetAttendanceForUser(int userId)
+        //{
+        //    return await _context.EmployeeAttendances
+        //                         .Where(a => a.EmployeeId == userId)
+        //                         .ToListAsync();
+        //}
+
     }
 }

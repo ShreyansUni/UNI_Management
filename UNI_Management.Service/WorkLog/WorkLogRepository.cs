@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -97,5 +98,13 @@ namespace UNI_Management.Service
                 workLog = data
             };
         }
+
+        //public async Task<List<WorkLog>> GetWorkLogForUser(int userId)
+        //{
+        //    return await _context.WorkLogs
+        //                         .Where(w => w.EmployeeId == userId)
+        //                         .ToListAsync();
+        //}
+
     }
 }

@@ -124,8 +124,8 @@ namespace UNI_Management.Service
                 {
                     var newEmployee = new Employee
                     {
-                        UserName = employee.Employee.FirstName,
-                        Password = employee.Employee.MiddleName,
+                        UserName = employee.Employee.Email,
+                        Password = employee.Employee.FirstName,
                         FirstName = employee.Employee.FirstName,
                         LastName = employee.Employee.LastName,
                         Email = employee.Employee.Email,
@@ -173,7 +173,8 @@ namespace UNI_Management.Service
                     string newEmployeeEmailSubject = "New Employee Created: " + newEmployee.FirstName + " " + newEmployee.LastName;
                     string newEmployeeEmailBody = "A new employee has been created with the following details:<br><br>"
                                                 + "Name: " + newEmployee.FirstName + " " + newEmployee.LastName + "<br>"
-                                                + "Email: " + newEmployee.Email + "<br>"
+                                                + "UserName: " + newEmployee.Email + "<br>"
+                                                + "Password: " + newEmployee.FirstName + "<br>"
                                                 + "Education: " + newEmployee.Education + "<br>"
                                                 + "Employee Type: " + newEmployee.EmployeeType + "<br><br>"
                                                 + "Please verify the details.";

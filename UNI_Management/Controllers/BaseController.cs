@@ -77,21 +77,24 @@ namespace UNI_Management.Controllers
 
             return result.ToString();
         }
+
+
         /// <summary>
         /// 
         /// </summary>
         public string GenerateQrCodeUri(string email, string key)
         {
             var qrGenerator = new QRCodeGenerator();
-            var qrCodeData = qrGenerator.CreateQrCode($"otpauth://totp/{email}?secret={key}&issuer=UNI_Management", QRCodeGenerator.ECCLevel.Q);
+            var qrCodeData = qrGenerator.CreateQrCode($"otpauth://totp/{email}?secret={key}&issuer=GoogleAuthDemo", QRCodeGenerator.ECCLevel.Q);
             var qrCode = new PngByteQRCode(qrCodeData);
             var qrCodeBytes = qrCode.GetGraphic(20);
             return $"data:image/png;base64,{Convert.ToBase64String(qrCodeBytes)}";
         }
+
         public byte[] GenerateQrCodeAsByteArray(string email, string key)
         {
             var qrGenerator = new QRCodeGenerator();
-            var qrCodeData = qrGenerator.CreateQrCode($"otpauth://totp/{email}?secret={key}&issuer=UNI_Management", QRCodeGenerator.ECCLevel.Q);
+            var qrCodeData = qrGenerator.CreateQrCode($"otpauth://totp/{email}?secret={key}&issuer=Uni-CRM", QRCodeGenerator.ECCLevel.Q);
             var qrCode = new PngByteQRCode(qrCodeData);
             return qrCode.GetGraphic(20);
         }
@@ -137,7 +140,7 @@ namespace UNI_Management.Controllers
             string strMailTemplet = string.Empty;
 
             // Read the contents of the mail template file
-            using (StreamReader sr = new StreamReader("wwwroot/assets/emailtemplate/" + path + "/" + templateFileName))
+            using (StreamReader sr = new StreamReader("wwwroot/emailtemplate/" + path + "/" + templateFileName))
             {
                 // Read each line of the file until the end
                 string sLine;
@@ -147,6 +150,7 @@ namespace UNI_Management.Controllers
                     strMailTemplet += sLine;
                 }
             }
+
             // Return the mail template content
             return strMailTemplet;
         }

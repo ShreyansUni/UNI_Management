@@ -46,7 +46,7 @@
             // Get current date and compare
             let currentDate = new Date();
             let targetDate = new Date(year, month, i);
-            
+
             // If the target date is in the past, disable interaction
             if (targetDate < currentDate) {
                 cellClass += " disabled"; // Add a "disabled" class to style or disable
@@ -81,7 +81,10 @@
                         }
                     }
 
-                    lit2 += `<td class="border border-dark text-center atte">${statusText}</td>`;
+                    // If attendance is already filled, mark it in data attribute
+                    let dataFilled = attendance ? 'data-attendance-filled="true"' : '';
+
+                    lit2 += `<td class="border border-dark text-center atte" ${dataFilled}>${statusText}</td>`;
                 }
                 $("#additionalRow").html(lit2);
             },
@@ -92,12 +95,16 @@
 
         // Click on button to print date
         $('#attdancetable').on('click', '.atte', function () {
+            if ($(this).attr('data-attendance-filled')) {
+                return; // Do not open dropdown if attendance is already filled
+            }
+
             let index = $(this).index() + 1;
             let selectedDate = new Date(year, month, index);
             let currentDate = new Date();
             let selectedDateString = selectedDate.toDateString(); // This will give you the date part in a human-readable format
-            let currentDateString = currentDate.toDateString();  
-            
+            let currentDateString = currentDate.toDateString();
+
             if (selectedDateString >= currentDateString) {  // Allow editing of the current and future dates
                 showDropdown(this, index, month, year);
             }
@@ -111,13 +118,17 @@
         // Remove any existing dropdowns
         $('.dropdowndata').remove();
 
+        if ($(cell).attr('data-attendance-filled')) {
+            return; // Do not open dropdown if attendance is already filled
+        }
+
         // Get the current date and compare it with the selected date
         let currentDate = new Date();
         let targetDate = new Date(year, month, index);
-        
+
         // Determine dropdown options based on the date (past, present, or future)
         let dropdownOptions = '';
-        
+
         // Check if the selected date is today
         if (targetDate.toDateString() === currentDate.toDateString()) {
             // Today's date: Show all options (Present, Absent, Half Leave)
@@ -126,10 +137,10 @@
                 <a href="#" class="drp" data-value="2">Absent</a>
                 <a href="#" class="drp" data-value="3">Half Leave</a>
             `;
-        } else{
+        } else {
             // Past dates: Do not show dropdown (disabled)
             return; // Simply return to prevent showing the dropdown for past dates
-        } 
+        }
 
         // Create the dropdown menu
         let dropdown = `
@@ -152,7 +163,8 @@
             let status = $(this).text();
             let value = $(this).data('value');
             console.log('Status:', status);
-            $(this).closest('td').text(status); // Optionally, replace cell content with status
+            $(cell).text(status); // Replace cell content with status
+            $(cell).attr('data-attendance-filled', true); // Mark cell as filled
             $('.dropdowndata').remove(); // Remove the dropdown
 
             // Save attendance status via AJAX
@@ -167,6 +179,7 @@
                 },
                 success: function (response) {
                     console.log(response);
+                    $(cell).attr('data-attendance-filled', true); // Ensure it is marked filled
                     $('.dropdowndata').remove(); // Remove the dropdown
                 },
                 error: function (error) {
@@ -176,3 +189,4 @@
         });
     }
 });
+

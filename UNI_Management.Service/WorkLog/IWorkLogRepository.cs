@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UNI_Management.Domain;
+using UNI_Management.Domain.DataModels;
 
 namespace UNI_Management.Service
 {
@@ -14,5 +15,7 @@ namespace UNI_Management.Service
         Task<(bool IsSuccess, string Message)> WorkLogAdd(WorkLogDTO model);
 
         WorkLogDTO GetWorkLogDetails(int? WorkLogId);
+
+        //Task<List<WorkLog>> GetWorkLogForUser(int userId);
     }
 }
