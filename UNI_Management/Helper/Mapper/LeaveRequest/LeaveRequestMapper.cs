@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using static UNI_Management.ViewModel.AttandanceViewModal;
 using UNI_Management.Domain;
 using UNI_Management.ViewModel;

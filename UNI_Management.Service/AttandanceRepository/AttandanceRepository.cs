@@ -65,6 +65,7 @@ namespace UNI_Management.Service
         {
             var list = _context.EmployeeAttendances
                      .Where(e => e.Month == (month) && e.Year == year && e.EmployeeId == E)
+
                      .Select(cont => new AttandenceDTO()
                      {
                          employeeAttendance = cont

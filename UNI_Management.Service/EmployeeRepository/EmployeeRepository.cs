@@ -14,7 +14,6 @@ using UNI_Management.Common.Utility;
 using UNI_Management.Domain;
 using UNI_Management.Domain.DataContext;
 using UNI_Management.Domain.DataModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 

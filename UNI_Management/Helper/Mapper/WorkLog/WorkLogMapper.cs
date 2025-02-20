@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using UNI_Management.Domain;
 using UNI_Management.ViewModel;
 using static UNI_Management.ViewModel.WorkLogViewModal;
