@@ -1,4 +1,5 @@
-﻿using UNI_Management.Common.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using UNI_Management.Common.DependencyInjection;
 using UNI_Management.Common.Utility;
 using UNI_Management.Domain;
 using UNI_Management.Domain.DataContext;
@@ -19,19 +20,37 @@ namespace UNI_Management.Service
         #endregion
 
         #region Add
-        public void AddAttandance(int day, int month, int year, short status)
+        public void AddAttandance(int day, int month, int year, short status, int UserId)
         {
             try
             {
-                var EmpAttandace = new EmployeeAttendance();
-                EmpAttandace.EmployeeId = 131;
-                EmpAttandace.Status = status;
-                EmpAttandace.Day = day;
-                EmpAttandace.Month = month;
-                EmpAttandace.Year = year;
-                EmpAttandace.Created = DateTime.Now;
+                if(DateTime.Now.Day == day)
+                {
+                    var existingAttendance = _context.EmployeeAttendances
+                                            .Where(e => e.Day == day && e.EmployeeId == UserId).FirstOrDefault();
+                    if (existingAttendance == null) {
+                        var EmpAttandace = new EmployeeAttendance();
+                        EmpAttandace.EmployeeId = UserId;
+                        EmpAttandace.Status = status;
+                        EmpAttandace.Day = day;
+                        EmpAttandace.Month = month;
+                        EmpAttandace.Year = year;
+                        EmpAttandace.Created = DateTime.Now;
 
-                _context.EmployeeAttendances.Add(EmpAttandace);
+                        _context.EmployeeAttendances.Add(EmpAttandace);
+                    }
+                    else
+                    {
+                        existingAttendance.Status = status;
+                        existingAttendance.Day = day;
+                        existingAttendance.Month = month;
+                        existingAttendance.Year = year;
+                        existingAttendance.Modified = DateTime.Now;
+
+                        _context.EmployeeAttendances.Update(existingAttendance);
+                    }
+                }
+                
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -45,7 +64,8 @@ namespace UNI_Management.Service
         public List<AttandenceDTO> GetAttandace(int year, int month, int E)
         {
             var list = _context.EmployeeAttendances
-                     .Where(e => e.Month == (month+1) && e.Year == year && e.EmployeeId == E)
+                     .Where(e => e.Month == (month) && e.Year == year && e.EmployeeId == E)
+
                      .Select(cont => new AttandenceDTO()
                      {
                          employeeAttendance = cont
@@ -55,5 +75,13 @@ namespace UNI_Management.Service
             return list;
         }
         #endregion
+
+        //public async Task<List<EmployeeAttendance>> GetAttendanceForUser(int userId)
+        //{
+        //    return await _context.EmployeeAttendances
+        //                         .Where(a => a.EmployeeId == userId)
+        //                         .ToListAsync();
+        //}
+
     }
 }

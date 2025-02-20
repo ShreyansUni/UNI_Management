@@ -1,0 +1,211 @@
+﻿@model UNI_Management.ViewModel.TimeSheetViewModel
+
+@{
+    var demo = Model;
+}
+<div class="row p-2" id="filter">
+    <div class="col-md-12">
+        <div class="row pb-5">
+            <div class="col-md-12">
+                <button class="btn btn-primary" id="filterButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                        <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                    </svg> Filters
+                </button>
+            </div>
+        </div>
+        <div class="card container-fluid" id="filterCard" style="display:none">
+            <div class="row">
+                <div class="col-md-3 my-2">
+                    <div class="form-floating">
+                        <input class="form-control gridFilterElements" id="txtFromDate" type="date">
+                        <label for="txtFromDate">From Date</label>
+                    </div>
+                </div>
+                <div class="col-md-3 my-2">
+                    <div class="form-floating">
+                        <input class="form-control gridFilterElements" id="txtToDate" type="date">
+                        <label for="txtToDate">To Date</label>
+                    </div>
+                </div>
+
+                <div class="col-md-3 my-3">
+                    <button class="btn btn-primary">Search</button>
+                    <button class="btn btn-dark">Clear</button>
+                </div>
+            </div>   
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col ">
+            <div class=" my-3 d-flex justify-content-between align-items-center">
+                <h1>TimeSheet</h1>
+            </div>
+            <div class="bg-white p-5 mb-3 rounded">
+                <div class="row pb-3">
+                    <div class="col-2"><h3>Avg.Sign In Time:</h3></div>
+                    <div class="col-2"></div>
+                    <div class="col-2"><h3>Avg.Sign Out Time:</h3></div>
+                    <div class="col-2"></div>
+                    <div class="col-2"><h3>Avg.Working Time:</h3></div>
+                    <div class="col-2"></div>
+                </div>
+                @* @{
+                    var totalSignInTime = TimeSpan.Zero;
+                    var totalSignOutTime = TimeSpan.Zero;
+                    var totalWorkingTime = TimeSpan.Zero;
+                    int count = 0;
+
+                    if (Model?.timeSheetDetailsList != null && Model.timeSheetDetailsList.Any())
+                    {
+                        foreach (var entry in Model.timeSheetDetailsList)
+                        {
+                            // Ensure WorkLogDetails and AttandenceDetails are not null
+                            var workLogDetail = entry.WorkLogDetails?.FirstOrDefault();
+                            var attendanceDetail = entry.AttandenceDetails?.FirstOrDefault();
+
+                            if (workLogDetail != null && attendanceDetail != null &&
+                            workLogDetail.SignOutTime.HasValue && attendanceDetail.CreatedDate.HasValue)
+                            {
+                                totalSignInTime += attendanceDetail.CreatedDate.Value.TimeOfDay;
+                                totalSignOutTime += workLogDetail.SignOutTime.Value.TimeOfDay;
+                                totalWorkingTime += workLogDetail.SignOutTime.Value - attendanceDetail.CreatedDate.Value;
+                                count++;
+                            }
+                        }
+                    }
+
+                    var avgSignInTime = count > 0 ? TimeSpan.FromTicks(totalSignInTime.Ticks / count) : (TimeSpan?)null;
+                    var avgSignOutTime = count > 0 ? TimeSpan.FromTicks(totalSignOutTime.Ticks / count) : (TimeSpan?)null;
+                    var avgWorkingTime = count > 0 ? TimeSpan.FromTicks(totalWorkingTime.Ticks / count) : (TimeSpan?)null;
+                }
+
+                <div class="row pb-3">
+                    <div class="col-2"><h3>Avg. Sign In Time:</h3></div>
+                    <div class="col-2"><h3>@(avgSignInTime?.ToString(@"hh\:mm tt") ?? "N/A")</h3></div>
+                    <div class="col-2"><h3>Avg. Sign Out Time:</h3></div>
+                    <div class="col-2"><h3>@(avgSignOutTime?.ToString(@"hh\:mm tt") ?? "N/A")</h3></div>
+                    <div class="col-2"><h3>Avg. Working Time:</h3></div>
+                    <div class="col-2"><h3>@(avgWorkingTime?.ToString(@"hh\:mm\:ss") ?? "N/A")</h3></div>
+                </div> *@
+
+                <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
+                    <thead class="table-active table-hover text-center">
+                        <!--begin::Table row-->
+                        <tr class="fw-bolder fs-7 text-uppercase gs-0">
+                            <th class="min-w-80px">No.</th>
+                            <th class="min-w-80px">Date</th>
+                            <th class="min-w-125px">P/A</th>
+                            <th class="min-w-125px">SignInTime</th>
+                            <th class="min-w-125px">SignOutTime</th>
+                            <th class="min-w-125px">WorkingHours</th>
+                            <th class="min-w-125px">WorklogNotes</th>
+                            @* <th class="text-center min-w-70px">Actions</th> *@
+                        </tr>
+                        <!--end::Table row-->
+                    </thead>
+                    <!--end::Table head-->
+                    <!--begin::Table body-->
+                    <tbody class="fw-bold text-gray-600">
+                        @if (Model.timeSheetDetailsList != null && Model.timeSheetDetailsList.Any())
+                        {
+                            int i = 0;
+                            @foreach (var data in Model.timeSheetDetailsList)
+                            {
+                                var workLogDetail = data.WorkLogDetails.FirstOrDefault();
+                                var attandenceDetail = data.AttandenceDetails.FirstOrDefault();
+                                <tr class="">
+                                    <td class="min-w-80px">@(++i)</td>
+                                    <td class="min-w-80px">@attandenceDetail.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                                    <td class="min-w-125px">
+                                        @{
+                                            var statusText = attandenceDetail.Status switch
+                                            {
+                                                1 => "Present",
+                                                2 => "Absent",
+                                                3 => "Half Leave",
+                                                _ => "Unknown"
+                                            };
+                                        }
+                                        @statusText
+                                    </td>
+
+                                    <td class="min-w-125px">@(attandenceDetail.CreatedDate.HasValue ? attandenceDetail.CreatedDate.Value.ToString("hh:mm tt") : "-")</td>
+                                    <td class="min-w-125px">@(workLogDetail.SignOutTime.HasValue ? workLogDetail.SignOutTime.Value.ToString("hh:mm tt") : "-")</td>
+                                    @* <td class="min-w-125px">
+                                        @{
+                                            // Use DateTime.MinValue if either CreatedDate or SignOutTime is null
+                                            var signInTime = attandenceDetail.CreatedDate ?? DateTime.MinValue;
+                                            var signOutTime = workLogDetail.SignOutTime ?? DateTime.MinValue;
+
+                                            if (signInTime != DateTime.MinValue && signOutTime != DateTime.MinValue)
+                                            {
+                                                // Calculate the working hours
+                                                var workingDuration = signOutTime - signInTime;
+                                                var workingHours = workingDuration.TotalHours;
+
+                                                // Display the result with 2 decimal points
+                                                @workingHours.ToString("F2")
+                                            }
+                                            else
+                                            {
+                                                @:N/A  // If either CreatedDate or SignOutTime is null
+                                            }
+                                        }
+                                    </td> *@
+                                    <td class="min-w-125px">
+                                        @{
+                                            // Check if CreatedDate and SignOutTime are not null
+                                            if (attandenceDetail.CreatedDate.HasValue && workLogDetail.SignOutTime.HasValue)
+                                            {
+                                                // Get the actual DateTime values
+                                                var signInTime = attandenceDetail.CreatedDate.Value;
+                                                var signOutTime = workLogDetail.SignOutTime.Value;
+
+                                                // Calculate the working duration
+                                                var workingDuration = signOutTime - signInTime;
+
+                                                // Format the duration as hh:mm:ss
+                                                @workingDuration.ToString(@"hh\:mm\:ss")
+                                            }
+                                            else
+                                            {
+                                                @:N/A  // If either CreatedDate or SignOutTime is null
+                                            }
+                                        }
+                                    </td>
+
+
+                                    <td class="min-w-125px">@workLogDetail?.Note</td>
+                                    @* <td class="text-center min-w-70px">Actions</td> *@
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8">No data available</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <!--end::Table body-->
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section BodyEndScript {
+    <script>
+                document.getElementById('filterButton').addEventListener('click', function () {
+            var filterCard = document.getElementById('filterCard');
+            if (filterCard.style.display === 'none' || filterCard.style.display === '') {
+                filterCard.style.display = 'block';
+            } else {
+                filterCard.style.display = 'none';
+            }
+        });
+    </script>
+} 
+

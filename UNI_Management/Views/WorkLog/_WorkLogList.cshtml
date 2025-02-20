@@ -1,11 +1,5 @@
-﻿@model UNI_Management.ViewModel.WorkLogViewModal
-@* @if (Model.Count < 1)
-{
-    <h1 class="text-center mt-3 text-secondary">No data Found</h1>
-}
-else
-@{}
-{ *@
+@model UNI_Management.ViewModel.WorkLogViewModal
+
 @{
     var demo = Model;
 }
@@ -16,7 +10,7 @@ else
         <tr class="fw-bolder fs-7 text-uppercase gs-0">
             <th class="min-w-80px">No.</th>
             <th class="min-w-80px">Subject</th>
-            <th class="min-w-125px">Message</th>
+            <th class="min-w-125px">Note</th>
             <th class="min-w-125px">SignOutTime</th>
             <th class="text-center min-w-70px">Actions</th>
         </tr>
@@ -28,41 +22,39 @@ else
         @{
             int i = 1;
         }
-        @*   @if (Model.Count < 1)
+        @if (Model.workLogList != null && Model.workLogList.Any())
+        {
+            @foreach (var b in Model.workLogList)
             {
+                <tr>
+                    <td>@i</td>
+                    <td>@b.Subject</td>
+                    <td>@b.Note</td>
+                    <td>@b.SignOutTime</td>
+                    <td class="text-center">
+                        <a href="worklog/edit/@b.WorkLogId">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square text-success" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg>
+                        </a>
 
-                <h1 class="text-center mt-3 text-secondary">No data Found</h1>
-
-            } *@
-        @foreach (var b in Model.workLogList)
+                    </td>
+                </tr>
+                i++;
+            }
+        }
+        else
         {
             <tr>
-                <td>@i</td>
-                <td>@b.Subject</td>
-                <td>@b.Message</td>
-                <td>@b.SignOutTime</td>
-                <td class="text-center">
-                    <a href="worklog/edit/@b.WorkLogId">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square text-success" viewBox="0 0 16 16">
-                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-                        </svg>
-                    </a>
-
-                </td>
+                <td colspan="5" class="text-center">Record not found</td>
             </tr>
-
-
-
-            i++;
         }
     </tbody>
     <!--end::Table body-->
 </table>
-@* } *@
-
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#example').DataTable();
     });
 </script>

@@ -8,7 +8,11 @@ namespace UNI_Management.Domain
 
         public EmployeeAttachment employeeAttachment { get; set; }
     }
-    
+    public class TimeSheetDTO : TotalRecord
+    {
+       public WorkLog workLog { get; set; }
+       public EmployeeAttendance attandence { get; set; }
+    }
     public class AttandenceDTO : TotalRecord
     {
         public EmployeeAttendance employeeAttendance { get; set; }

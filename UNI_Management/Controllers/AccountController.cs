@@ -48,26 +48,43 @@ namespace UNI_Management.Controllers
                 }
                 else
                 {
-                    //_notyf.Error("Enter correct credentials!");
-                    return RedirectToAction("Index");
+                    TempData["ErrorMessage"] = "Invalid email or password. Please try again.";
+                    return RedirectToAction("Index", userModel);
                 }
             }
             else
             {
-                //_notyf.Error("Enter correct credentials!");
-                return View("Index", User);
+                TempData["ErrorMessage"] = "Please fill in all required fields.";
+                return View("Index", userModel);
             }
         }
 
+        #region ChangePassword
+        public IActionResult ChangePasswordView()
+        {
+            return View("ChangePassword");
+        }
         public IActionResult ChangePassword()
         {
             return View();
         }
+        #endregion
 
+        #region ForgotPassword
         public IActionResult ForgotPassword()
         {
             return View();
         }
+
+        public IActionResult ForgetPassword(string email)
+        {
+            if (email!=null)
+            {
+                bool isValid = _loginRepository.checkEmail(email);
+            }
+            return RedirectToAction("ChangePasswordView");
+        }
+        #endregion
 
         public IActionResult TwoFactorAuthentication()
         {

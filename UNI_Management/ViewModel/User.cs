@@ -10,9 +10,12 @@ namespace UNI_Management.ViewModel
     public class User
     {
         public int? EmployeeId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
     }

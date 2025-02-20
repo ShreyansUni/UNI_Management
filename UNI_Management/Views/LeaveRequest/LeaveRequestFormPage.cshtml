@@ -8,14 +8,14 @@
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" disabled asp-for=leaveRequestDetails.LeaveRequestorName class="form-control" />
-            <input type="number" hidden asp-for=leaveRequestDetails.LeaveRequestorID />
+            <input type="hidden" hidden asp-for=leaveRequestDetails.LeaveRequestorID />
             <span asp-validation-for="leaveRequestDetails.LeaveRequestorID" class="text-danger"></span>
         </div>
         <!-- Reporting Person -->
         <div class="mb-3">
             <label for="reporting_person" class="form-label">Reporting Person</label>
             <input type="text" disabled asp-for=leaveRequestDetails.LeaveRequestorName class="form-control" />
-            <input type="number" hidden asp-for=leaveRequestDetails.LeaveResponsorID />
+            <input type="hidden" hidden asp-for=leaveRequestDetails.LeaveResponsorID />
             <span asp-validation-for="leaveRequestDetails.LeaveResponsorID" class="text-danger"></span>
         </div>
         <!-- Reason For Leave -->
@@ -142,82 +142,86 @@
         </div>
     </form>
 </div>
-<script>
-    function calculateLeaveDuration() {
-        let startDateInput = document.getElementById("startDate");
-        let endDateInput = document.getElementById("endDate");
-        let returnDateInput = document.getElementById("return_date");
-        let endDurationSelect = document.getElementById("end_duration");
-        let totalDaysInput = document.getElementById("totalDaysHolidayInput");
-        let actualLeaveDurationInput = document.getElementById("workingDaysHolidayInput");
 
-        let startDate = new Date(startDateInput.value);
-        let endDate = new Date(endDateInput.value);
+@section BodyEndScript{
+    <script>
+        function calculateLeaveDuration() {
+            let startDateInput = document.getElementById("startDate");
+            let endDateInput = document.getElementById("endDate");
+            let returnDateInput = document.getElementById("return_date");
+            let endDurationSelect = document.getElementById("end_duration");
+            let totalDaysInput = document.getElementById("totalDaysHolidayInput");
+            let actualLeaveDurationInput = document.getElementById("workingDaysHolidayInput");
 
-        endDateInput.min = startDateInput.value;
-        // Ensure End Date is not before Start Date
-        if (endDate < startDate) {
-            endDateInput.value = startDateInput.value;
-            endDate = new Date(startDateInput.value);
-        }
+            let startDate = new Date(startDateInput.value);
+            let endDate = new Date(endDateInput.value);
 
-
-        // Set Return Date to one day after End Date
-        let returnDate = new Date(endDate);
-        returnDate.setDate(returnDate.getDate() + 1);
-        returnDateInput.value = returnDate.toISOString().split('T')[0];
-
-        // Disable End Duration if Start Date equals End Date
-        if (startDate.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]) {
-            endDurationSelect.disabled = true;
-        } else {
-            endDurationSelect.disabled = false;
-        }
-
-        // Calculate total leave duration and update input
-        let totalDays = getDaysDifference(startDate, endDate) + 1; // +1 to include both start and end dates
-        totalDaysInput.value = totalDays;
-
-        // Subtract Sundays to get Actual Leave Duration
-        let sundayCount = countSundays(startDateInput.value, endDateInput.value);
-        let actualLeaveDuration = totalDays - sundayCount;
-
-        // Update Actual Leave Duration
-        actualLeaveDurationInput.value = actualLeaveDuration;
-    }
-
-    // Function to calculate the difference in days between two dates
-    function getDaysDifference(date1, date2) {
-        const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
-
-        // Convert dates to milliseconds
-        const date1Ms = date1.getTime();
-        const date2Ms = date2.getTime();
-
-        // Calculate the absolute difference in milliseconds
-        const diffMs = Math.abs(date2Ms - date1Ms);
-
-        // Convert back to days and return
-        return Math.floor(diffMs / oneDay);
-    }
-
-    // Function to count the number of Sundays between two dates
-    function countSundays(startDate, endDate) {
-        // Convert string dates to Date objects
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-
-        let sundayCount = 0;
-
-        // Loop through all the dates between start and end
-        for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
-            if (date.getDay() === 0) {  // 0 represents Sunday
-                sundayCount++;
+            endDateInput.min = startDateInput.value;
+            // Ensure End Date is not before Start Date
+            if (endDate < startDate) {
+                endDateInput.value = startDateInput.value;
+                endDate = new Date(startDateInput.value);
             }
+
+
+            // Set Return Date to one day after End Date
+            let returnDate = new Date(endDate);
+            returnDate.setDate(returnDate.getDate() + 1);
+            returnDateInput.value = returnDate.toISOString().split('T')[0];
+
+            // Disable End Duration if Start Date equals End Date
+            if (startDate.toISOString().split('T')[0] === endDate.toISOString().split('T')[0]) {
+                endDurationSelect.disabled = true;
+            } else {
+                endDurationSelect.disabled = false;
+            }
+
+            // Calculate total leave duration and update input
+            let totalDays = getDaysDifference(startDate, endDate) + 1; // +1 to include both start and end dates
+            totalDaysInput.value = totalDays;
+
+            // Subtract Sundays to get Actual Leave Duration
+            let sundayCount = countSundays(startDateInput.value, endDateInput.value);
+            let actualLeaveDuration = totalDays - sundayCount;
+
+            // Update Actual Leave Duration
+            actualLeaveDurationInput.value = actualLeaveDuration;
         }
 
-        return sundayCount;
-    }
+        // Function to calculate the difference in days between two dates
+        function getDaysDifference(date1, date2) {
+            const oneDay = 24 * 60 * 60 * 1000; // milliseconds in a day
+
+            // Convert dates to milliseconds
+            const date1Ms = date1.getTime();
+            const date2Ms = date2.getTime();
+
+            // Calculate the absolute difference in milliseconds
+            const diffMs = Math.abs(date2Ms - date1Ms);
+
+            // Convert back to days and return
+            return Math.floor(diffMs / oneDay);
+        }
+
+        // Function to count the number of Sundays between two dates
+        function countSundays(startDate, endDate) {
+            // Convert string dates to Date objects
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            let sundayCount = 0;
+
+            // Loop through all the dates between start and end
+            for (let date = new Date(start); date <= end; date.setDate(date.getDate() + 1)) {
+                if (date.getDay() === 0) {  // 0 represents Sunday
+                    sundayCount++;
+                }
+            }
+
+            return sundayCount;
+        }
 
 
-</script>
+    </script>
+}
+
