@@ -66,14 +66,14 @@ namespace UNIManagement.Repositories.Repository
                     {
                         EmailBody = "EDITED: " + employee.FirstName + " " + employee.LastName + " is requesting " + model.leaveRequest.ActualLeaveDuration + " day leave on " + model.leaveRequest.LeaveStartDate + " (" + ((Enums.LeaveType)model.LeaveStartType).ToString() + "). <br> Reason Of Leave: <br>" + model.leaveRequest.ReasonForLeave + "<br>";
                     }
-                    EmailHelper.SendMail("dhorajiyabrijesh607@gmail.com", EmailSubject, EmailBody);
+                    EmailHelper.SendMail(employee.Email, EmailSubject, EmailBody);
                 }
 
 
                 else
                 {
                     LeaveRequest leaveRequest = new();
-                    leaveRequest.ReportingEmployeeId = 140;
+                    leaveRequest.ReportingEmployeeId = 165;
                     leaveRequest.ReasonForLeave = model.leaveRequest.ReasonForLeave;
                     leaveRequest.LeaveStartDate = model.leaveRequest.LeaveStartDate;
                     leaveRequest.LeaveStartDateDuration = model.leaveRequest.LeaveStartDateDuration;
@@ -107,7 +107,7 @@ namespace UNIManagement.Repositories.Repository
                     {
                         EmailBody = employee.FirstName + " " + employee.LastName + " is requesting " + model.leaveRequest.ActualLeaveDuration + " day leave on " + model.leaveRequest.LeaveStartDate + " (" + ((Enums.LeaveType)model.LeaveStartType).ToString() + "). <br> Reason Of Leave: <br>" + model.leaveRequest.ReasonForLeave + "<br>";
                     }
-                    EmailHelper.SendMail("dhorajiyabrijesh607@gmail.com", EmailSubject, EmailBody);
+                    EmailHelper.SendMail(employee.Email, EmailSubject, EmailBody);
                 }
             }
             

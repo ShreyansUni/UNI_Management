@@ -52,44 +52,6 @@
                     <div class="col-2"><h3>Avg.Working Time:</h3></div>
                     <div class="col-2"></div>
                 </div>
-                @* @{
-                    var totalSignInTime = TimeSpan.Zero;
-                    var totalSignOutTime = TimeSpan.Zero;
-                    var totalWorkingTime = TimeSpan.Zero;
-                    int count = 0;
-
-                    if (Model?.timeSheetDetailsList != null && Model.timeSheetDetailsList.Any())
-                    {
-                        foreach (var entry in Model.timeSheetDetailsList)
-                        {
-                            // Ensure WorkLogDetails and AttandenceDetails are not null
-                            var workLogDetail = entry.WorkLogDetails?.FirstOrDefault();
-                            var attendanceDetail = entry.AttandenceDetails?.FirstOrDefault();
-
-                            if (workLogDetail != null && attendanceDetail != null &&
-                            workLogDetail.SignOutTime.HasValue && attendanceDetail.CreatedDate.HasValue)
-                            {
-                                totalSignInTime += attendanceDetail.CreatedDate.Value.TimeOfDay;
-                                totalSignOutTime += workLogDetail.SignOutTime.Value.TimeOfDay;
-                                totalWorkingTime += workLogDetail.SignOutTime.Value - attendanceDetail.CreatedDate.Value;
-                                count++;
-                            }
-                        }
-                    }
-
-                    var avgSignInTime = count > 0 ? TimeSpan.FromTicks(totalSignInTime.Ticks / count) : (TimeSpan?)null;
-                    var avgSignOutTime = count > 0 ? TimeSpan.FromTicks(totalSignOutTime.Ticks / count) : (TimeSpan?)null;
-                    var avgWorkingTime = count > 0 ? TimeSpan.FromTicks(totalWorkingTime.Ticks / count) : (TimeSpan?)null;
-                }
-
-                <div class="row pb-3">
-                    <div class="col-2"><h3>Avg. Sign In Time:</h3></div>
-                    <div class="col-2"><h3>@(avgSignInTime?.ToString(@"hh\:mm tt") ?? "N/A")</h3></div>
-                    <div class="col-2"><h3>Avg. Sign Out Time:</h3></div>
-                    <div class="col-2"><h3>@(avgSignOutTime?.ToString(@"hh\:mm tt") ?? "N/A")</h3></div>
-                    <div class="col-2"><h3>Avg. Working Time:</h3></div>
-                    <div class="col-2"><h3>@(avgWorkingTime?.ToString(@"hh\:mm\:ss") ?? "N/A")</h3></div>
-                </div> *@
 
                 <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
                     <thead class="table-active table-hover text-center">
@@ -114,14 +76,17 @@
                             int i = 0;
                             @foreach (var data in Model.timeSheetDetailsList)
                             {
-                                var workLogDetail = data.WorkLogDetails.FirstOrDefault();
-                                var attandenceDetail = data.AttandenceDetails.FirstOrDefault();
-                                <tr class="">
+                                var workLogDetail = data.WorkLogDetails?.FirstOrDefault(); // Handle null WorkLogDetails
+                                var attandenceDetail = data.AttandenceDetails?.FirstOrDefault(); // Handle null AttendanceDetails
+
+                                <tr>
                                     <td class="min-w-80px">@(++i)</td>
-                                    <td class="min-w-80px">@attandenceDetail.CreatedDate?.ToString("dd-MM-yyyy")</td>
+                                    <td class="min-w-80px">
+                                        @(attandenceDetail?.CreatedDate.HasValue == true ? attandenceDetail.CreatedDate.Value.ToString("dd-MM-yyyy") : "N/A")
+                                    </td>
                                     <td class="min-w-125px">
                                         @{
-                                            var statusText = attandenceDetail.Status switch
+                                            var statusText = attandenceDetail?.Status switch
                                             {
                                                 1 => "Present",
                                                 2 => "Absent",
@@ -132,61 +97,48 @@
                                         @statusText
                                     </td>
 
-                                    <td class="min-w-125px">@(attandenceDetail.CreatedDate.HasValue ? attandenceDetail.CreatedDate.Value.ToString("hh:mm tt") : "-")</td>
-                                    <td class="min-w-125px">@(workLogDetail.SignOutTime.HasValue ? workLogDetail.SignOutTime.Value.ToString("hh:mm tt") : "-")</td>
-                                    @* <td class="min-w-125px">
-                                        @{
-                                            // Use DateTime.MinValue if either CreatedDate or SignOutTime is null
-                                            var signInTime = attandenceDetail.CreatedDate ?? DateTime.MinValue;
-                                            var signOutTime = workLogDetail.SignOutTime ?? DateTime.MinValue;
+                                    <td class="min-w-125px">
+                                        @(attandenceDetail?.CreatedDate.HasValue == true ? attandenceDetail.CreatedDate.Value.ToString("hh:mm tt") : "-")
+                                    </td>
+                                    <td class="min-w-125px">
+                                        @(workLogDetail?.SignOutTime.HasValue == true ? workLogDetail.SignOutTime.Value.ToString("hh:mm tt") : "-")
+                                    </td>
 
-                                            if (signInTime != DateTime.MinValue && signOutTime != DateTime.MinValue)
-                                            {
-                                                // Calculate the working hours
-                                                var workingDuration = signOutTime - signInTime;
-                                                var workingHours = workingDuration.TotalHours;
-
-                                                // Display the result with 2 decimal points
-                                                @workingHours.ToString("F2")
-                                            }
-                                            else
-                                            {
-                                                @:N/A  // If either CreatedDate or SignOutTime is null
-                                            }
-                                        }
-                                    </td> *@
                                     <td class="min-w-125px">
                                         @{
-                                            // Check if CreatedDate and SignOutTime are not null
-                                            if (attandenceDetail.CreatedDate.HasValue && workLogDetail.SignOutTime.HasValue)
+                                            if (attandenceDetail?.CreatedDate.HasValue == true && workLogDetail?.SignOutTime.HasValue == true)
                                             {
-                                                // Get the actual DateTime values
                                                 var signInTime = attandenceDetail.CreatedDate.Value;
                                                 var signOutTime = workLogDetail.SignOutTime.Value;
 
-                                                // Calculate the working duration
-                                                var workingDuration = signOutTime - signInTime;
-
-                                                // Format the duration as hh:mm:ss
-                                                @workingDuration.ToString(@"hh\:mm\:ss")
+                                                // Ensure SignOutTime is after SignInTime
+                                                if (signOutTime > signInTime)
+                                                {
+                                                    var workingDuration = signOutTime - signInTime;
+                                                    @workingDuration.ToString(@"hh\:mm\:ss")
+                                                }
+                                                else
+                                                {
+                                                    @:Invalid Time
+                                                }
                                             }
                                             else
                                             {
-                                                @:N/A  // If either CreatedDate or SignOutTime is null
+                                                @:N/A
                                             }
                                         }
                                     </td>
 
-
-                                    <td class="min-w-125px">@workLogDetail?.Note</td>
-                                    @* <td class="text-center min-w-70px">Actions</td> *@
+                                    <td class="min-w-125px">
+                                        @(string.IsNullOrEmpty(workLogDetail?.Note) ? "N/A" : workLogDetail.Note)
+                                    </td>
                                 </tr>
                             }
                         }
                         else
                         {
                             <tr>
-                                <td colspan="8">No data available</td>
+                                <td colspan="8" class="text-center">No data available</td>
                             </tr>
                         }
                     </tbody>
