@@ -26,4 +26,7 @@ public partial class WorkLog
 
     [Column(TypeName = "character varying")]
     public string? Subject { get; set; }
+
+    [Column(TypeName = "time without time zone")]
+    public TimeOnly? BreakHours {  get; set; }
 }

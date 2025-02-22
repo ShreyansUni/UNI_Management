@@ -1,6 +1,38 @@
 @using UNI_Management.ViewModel
 @model LeaveRequestViewModel
 <div class="container-fluid mt-4">
+    <div class="row p-2" id="filter">
+        <div class="col-md-12">
+            <div class="row pb-5">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" id="filterButton">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-funnel" viewBox="0 0 16 16">
+                            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                        </svg> Filters
+                    </button>
+                </div>
+            </div>
+            <div class="card container-fluid" id="filterCard" style="display:none">
+                <div class="row">
+                    <div class="col-md-3 my-2">
+                        <div class="form-floating">
+                            <select class="form-select"
+                                    id="employeeDropdown" asp-for="EmployeeId"
+                                    asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
+                                    data-placeholder="Employee">
+                                <option value="">Select Employee</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 my-3">
+                        <button class="btn btn-primary">Search</button>
+                        <button class="btn btn-dark">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col ">
             <div class=" my-3 d-flex justify-content-between align-items-center">
@@ -23,7 +55,7 @@
                         @{
                             int i = 0;
                         }
-                        @if (Model.leaveRequestList.Count<1)
+                        @if (Model.leaveRequestList.Count < 1)
                         {
                             <tr>
                                 <td colspan="6">
@@ -103,34 +135,44 @@
 </div>
 
 @section BodyEndScript {
-<script>
-    function openDeleteModal(recordId) {
-        debugger;
-        $('#confirmDeleteModal').modal('show');
-        document.getElementById('recordId').value = recordId;
-    }
-    function deleteLeaveRecord(){
-        debugger;
-        var leaveRecordId=document.getElementById('recordId').value;
-        if(leaveRecordId===0 || leaveRecordId===null){
-            alert("Unexpected Error Occurred!");
-            return;
+    <script>
+        function openDeleteModal(recordId) {
+            debugger;
+            $('#confirmDeleteModal').modal('show');
+            document.getElementById('recordId').value = recordId;
         }
-        $.ajax({
-                url: '/LeaveRequest/DeleteLeaveRequest',
-                type: 'POST',
-            data: { leaveRecordID:leaveRecordId },
-                success: function (data) {
-                    if (data) {
-                    window.location.reload();
+        function deleteLeaveRecord(){
+            debugger;
+            var leaveRecordId=document.getElementById('recordId').value;
+            if(leaveRecordId===0 || leaveRecordId===null){
+                alert("Unexpected Error Occurred!");
+                return;
+            }
+            $.ajax({
+                    url: '/LeaveRequest/DeleteLeaveRequest',
+                    type: 'POST',
+                data: { leaveRecordID:leaveRecordId },
+                    success: function (data) {
+                        if (data) {
+                        window.location.reload();
+                        }
+                    },
+                    error: function (error) {
+                        alert('Error');
                     }
-                },
-                error: function (error) {
-                    alert('Error');
-                }
-            });
-    }
-</script>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+                });
+        }
+    </script>
+    <script>
+                document.getElementById('filterButton').addEventListener('click', function () {
+            var filterCard = document.getElementById('filterCard');
+            if (filterCard.style.display === 'none' || filterCard.style.display === '') {
+                filterCard.style.display = 'block';
+            } else {
+                filterCard.style.display = 'none';
+            }
+        });
+    </script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 }

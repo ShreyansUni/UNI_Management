@@ -18,6 +18,8 @@ namespace UNI_Management.ViewModel
         public List<LeaveRequestDetails> leaveRequestList { get; set; }
 
         public LeaveRequestDetails leaveRequestDetails { get; set; }
+
+        public int EmployeeId { get; set; }
     }
     public class LeaveRequestDetails
     {
@@ -56,5 +58,7 @@ namespace UNI_Management.ViewModel
         public string? AlternatePhoneNumber { get; set; }
         public bool IsAvailableOnPhone { get; set; } = true;
         public bool IsAdhocLeave { get; set; } = false;
+
+        public int EmployeeId { get; set; }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using UNI_Management.Common.Email;
 using UNI_Management.Controllers;
 using UNI_Management.Domain.DataModels;
 using UNI_Management.Service;
 using UNI_Management.Service.Authentication;
 using UNI_Management.ViewModel;
+using helper = UNI_Management.Common.Utility.CommonHelper;
 
 namespace UNI_Management.Controllers
 {
@@ -15,6 +18,7 @@ namespace UNI_Management.Controllers
         //private readonly IEmployeeRepository _employeeRepository;
         private readonly IJwtTokenRepository _jwtTokenRepository;
         //private readonly INotyfService _notyf;
+        private static readonly PasswordHasher<string> hasher = new PasswordHasher<string>();
         public AccountController(ILoginRepository loginRepository, IJwtTokenRepository jwtTokenRepository)
         {
             _loginRepository = loginRepository;
@@ -60,13 +64,38 @@ namespace UNI_Management.Controllers
         }
 
         #region ChangePassword
-        public IActionResult ChangePasswordView()
-        {
-            return View("ChangePassword");
-        }
         public IActionResult ChangePassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel changePasswordViewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    //var newPasswordHash = hasher.HashPassword(null, changePasswordViewModel.OldPassword);
+                    bool checkdetails = _loginRepository.ChangeUserPassword(changePasswordViewModel.Email, changePasswordViewModel.OldPassword, changePasswordViewModel.NewPassword, changePasswordViewModel.ConfirmPassword);
+                    if (checkdetails)
+                    {
+                        var employee = _loginRepository.GetUserByEmail(changePasswordViewModel.Email);
+                        var JWTToken = _jwtTokenRepository.GenerateJwtToken(employee.Email, employee.EmployeeId);
+                        HttpContext.Session.SetString("JwtToken", JWTToken);
+                        HttpContext.Session.SetInt32("UserId", employee.EmployeeId);
+                        HttpContext.Session.SetString("Email", employee.Email);
+                        HttpContext.Session.SetString("Name", employee.FirstName + " " + employee.LastName);
+                        //_notyf.Success("Welcome to Unique IT Solution Employee Portal!");
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                return View("ChangePassword");
+            }
+            catch (Exception ex)
+            {
+                return View("ChangePassword");
+            }
         }
         #endregion
 
@@ -76,13 +105,26 @@ namespace UNI_Management.Controllers
             return View();
         }
 
+        [HttpPost]
         public IActionResult ForgetPassword(string email)
         {
-            if (email!=null)
+            if (email != null)
             {
-                bool isValid = _loginRepository.checkEmail(email);
+                var (randomPassword, passwordHash) = helper.GetPassword(8);
+                bool isValid = _loginRepository.checkEmail(email, randomPassword, passwordHash);
+
+                if (isValid)
+                {
+                    string strMailTemplet = GetMailTemplate("login", "forgetpassword.html");
+                    strMailTemplet = strMailTemplet.Replace("@username@", email);
+                    strMailTemplet = strMailTemplet.Replace("@email@", email);
+                    strMailTemplet = strMailTemplet.Replace("@password@", randomPassword);
+                    EmailHelper.SendMail(email, "Forget Password", strMailTemplet);
+                    HttpContext.Session.SetString("Email", email);
+                    return RedirectToAction("Index");
+                }
             }
-            return RedirectToAction("ChangePasswordView");
+            return View("ForgetPassword");
         }
         #endregion
 

@@ -13,10 +13,12 @@ namespace UNI_Management.Controllers
         #region Constructor
         private readonly IAttandanceRepository _attandanceRepository;
         private readonly ILogger<EmployeeController> _logger;
-        public AttandanceController(IAttandanceRepository attandanceRepository, ILogger<EmployeeController> logger)
+        private readonly IEmployeeRepository _employeeRepository;
+        public AttandanceController(IAttandanceRepository attandanceRepository, ILogger<EmployeeController> logger, IEmployeeRepository employeeRepository)
         {
             _attandanceRepository = attandanceRepository;
             _logger = logger;
+            _employeeRepository = employeeRepository;
         }
         #endregion
 
@@ -24,15 +26,17 @@ namespace UNI_Management.Controllers
         public IActionResult GetAttandaceForMonth(int year, int month,int EmployeeId)
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
-            var v =  _attandanceRepository.GetAttandace((int)year, (int)month, UserId).ToModel();
+            int selectedEmployeeId = EmployeeId > 0 ? EmployeeId : UserId;
+            var v =  _attandanceRepository.GetAttandace((int)year, (int)month, selectedEmployeeId).ToModel();
             return Json(v);
         }
         #endregion
 
         #region Add Attendance
-        public IActionResult Index()
-        {
+        public async Task<IActionResult> Index()
+       {
             AttandanceViewModal attandanceViewModal = new AttandanceViewModal();
+            ViewBag.EmployeeDropdown = await _employeeRepository.GetEmployeeList();
             return View(attandanceViewModal);
         }
         public IActionResult SaveAttendance(int day, int month, int year, short status)

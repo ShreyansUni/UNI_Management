@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static UNI_Management.Common.Enums;
 
 namespace UNI_Management.ViewModel
 {
@@ -17,6 +18,8 @@ namespace UNI_Management.ViewModel
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+
+        public UserType userType { get; set; }
 
     }
 }

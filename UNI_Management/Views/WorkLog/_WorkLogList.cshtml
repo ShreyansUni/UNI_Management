@@ -12,6 +12,7 @@
             <th class="min-w-80px">Subject</th>
             <th class="min-w-125px">Note</th>
             <th class="min-w-125px">SignOutTime</th>
+            <th class="min-w-125px">BreakHours</th>
             <th class="text-center min-w-70px">Actions</th>
         </tr>
         <!--end::Table row-->
@@ -29,8 +30,9 @@
                 <tr>
                     <td>@i</td>
                     <td>@b.Subject</td>
-                    <td>@b.Note</td>
+                    <td style="max-width: 200px;">@b.Note</td>
                     <td>@b.SignOutTime</td>
+                    <td>@(b.BreakHours?.ToString(@"hh\:mm") ?? "--:--")</td>
                     <td class="text-center">
                         <a href="worklog/edit/@b.WorkLogId">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil-square text-success" viewBox="0 0 16 16">

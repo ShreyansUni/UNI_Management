@@ -33,7 +33,7 @@ namespace UNIManagement.Repositories.Repository
                 if (model.leaveRequest.LeaveRequestId != default)
                 {
                     LeaveRequest leaveRequest = _context.LeaveRequests.FirstOrDefault(leaves => leaves.LeaveRequestId == model.leaveRequest.LeaveRequestId);
-                    leaveRequest.ReportingEmployeeId = 140;
+                    leaveRequest.ReportingEmployeeId = model.leaveRequest.EmployeeId;
                     leaveRequest.ReasonForLeave = model.leaveRequest.ReasonForLeave;
                     leaveRequest.LeaveStartDate = model.leaveRequest.LeaveStartDate;
                     //leaveRequest.LeaveStartDateDuration = model.leaveRequest.LeaveStartType;
@@ -73,7 +73,7 @@ namespace UNIManagement.Repositories.Repository
                 else
                 {
                     LeaveRequest leaveRequest = new();
-                    leaveRequest.ReportingEmployeeId = 165;
+                    leaveRequest.ReportingEmployeeId = model.leaveRequest.EmployeeId;
                     leaveRequest.ReasonForLeave = model.leaveRequest.ReasonForLeave;
                     leaveRequest.LeaveStartDate = model.leaveRequest.LeaveStartDate;
                     leaveRequest.LeaveStartDateDuration = model.leaveRequest.LeaveStartDateDuration;

@@ -58,7 +58,8 @@ namespace UNI_Management.Service
                         Message = model.workLog.Message,
                         SignOutTime = DateTime.Now,
                         CreatedDate = DateTime.Now,
-                        EmployeeId = model.workLog.EmployeeId
+                        EmployeeId = model.workLog.EmployeeId,
+                        BreakHours = model.workLog.BreakHours
                     };
 
                     _context.Add(data);

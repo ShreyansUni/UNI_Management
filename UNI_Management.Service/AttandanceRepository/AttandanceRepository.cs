@@ -76,12 +76,7 @@ namespace UNI_Management.Service
         }
         #endregion
 
-        //public async Task<List<EmployeeAttendance>> GetAttendanceForUser(int userId)
-        //{
-        //    return await _context.EmployeeAttendances
-        //                         .Where(a => a.EmployeeId == userId)
-        //                         .ToListAsync();
-        //}
+
 
     }
 }

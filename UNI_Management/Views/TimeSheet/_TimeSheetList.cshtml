@@ -28,6 +28,16 @@
                         <label for="txtToDate">To Date</label>
                     </div>
                 </div>
+                <div class="col-md-3 my-2">
+                    <div class="form-floating">
+                        <select class="form-select"
+                                id="employeeDropdown" asp-for="EmployeeId"
+                                asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
+                                data-placeholder="Employee">
+                            <option value="">Select Employee</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="col-md-3 my-3">
                     <button class="btn btn-primary">Search</button>
@@ -51,6 +61,20 @@
                     <div class="col-2"></div>
                     <div class="col-2"><h3>Avg.Working Time:</h3></div>
                     <div class="col-2"></div>
+                    @* <div class="col-2"><h3>Avg. Sign In Time:</h3></div>
+                    <div class="col-2">
+                        <p>@(Model.timeSheetDetails.AvgSignInTime?.ToString(@"hh\:mm\:ss tt") ?? "--:--")</p>
+                    </div>
+
+                    <div class="col-2"><h3>Avg. Sign Out Time:</h3></div>
+                    <div class="col-2">
+                        <p>@(Model.timeSheetDetails.AvgSignOutTime?.ToString(@"hh\:mm\:ss tt") ?? "--:--")</p>
+                    </div>
+
+                    <div class="col-2"><h3>Avg. Working Time:</h3></div>
+                    <div class="col-2">
+                        <p>@(Model.timeSheetDetails.AvgWorkingTime?.ToString(@"hh\:mm\:ss") ?? "--:--")</p>
+                    </div> *@
                 </div>
 
                 <table class="table rounded text-center table-bordered border border-1 table-striped" id="example">
@@ -86,15 +110,15 @@
                                     </td>
                                     <td class="min-w-125px">
                                         @{
-                                            var statusText = attandenceDetail?.Status switch
+                                            var (badgeClass, statusText) = attandenceDetail?.Status switch
                                             {
-                                                1 => "Present",
-                                                2 => "Absent",
-                                                3 => "Half Leave",
-                                                _ => "Unknown"
+                                                1 => ("badge bg-success", "Present"),
+                                                2 => ("badge bg-danger", "Absent"),
+                                                3 => ("badge bg-warning text-dark", "Half Leave"),
+                                                _ => ("badge bg-secondary", "Unknown")
                                             };
                                         }
-                                        @statusText
+                                        <span class="@badgeClass">@statusText</span>
                                     </td>
 
                                     <td class="min-w-125px">
@@ -105,17 +129,28 @@
                                     </td>
 
                                     <td class="min-w-125px">
-                                        @{
+                                        @* @{
                                             if (attandenceDetail?.CreatedDate.HasValue == true && workLogDetail?.SignOutTime.HasValue == true)
                                             {
                                                 var signInTime = attandenceDetail.CreatedDate.Value;
                                                 var signOutTime = workLogDetail.SignOutTime.Value;
+                                                // var breakHours = workLogDetail.BreakHours.HasValue
+                                                // ? workLogDetail.BreakHours.Value.ToTimeSpan()
+                                                // : TimeSpan.Zero;
 
                                                 // Ensure SignOutTime is after SignInTime
                                                 if (signOutTime > signInTime)
                                                 {
                                                     var workingDuration = signOutTime - signInTime;
                                                     @workingDuration.ToString(@"hh\:mm\:ss")
+                                                    // if (workingDuration > TimeSpan.Zero)
+                                                    // {
+                                                    //     @workingDuration.ToString(@"hh\:mm\:ss")
+                                                    // }
+                                                    // else
+                                                    // {
+                                                    //     @:Invalid Duration
+                                                    // }
                                                 }
                                                 else
                                                 {
@@ -126,10 +161,50 @@
                                             {
                                                 @:N/A
                                             }
+                                        } *@
+                                        @{
+                                            string badgesClass;
+                                            string workingDurationText;
+
+                                            if (attandenceDetail?.CreatedDate.HasValue == true && workLogDetail?.SignOutTime.HasValue == true)
+                                            {
+                                                var signInTime = attandenceDetail.CreatedDate.Value;
+                                                var signOutTime = workLogDetail.SignOutTime.Value;
+
+                                                if (signOutTime > signInTime)
+                                                {
+                                                    var workingDuration = signOutTime - signInTime;
+                                                    workingDurationText = workingDuration.ToString(@"hh\:mm\:ss");
+
+                                                    if (workingDuration >= TimeSpan.FromHours(8) + TimeSpan.FromMinutes(30))
+                                                    {
+                                                        badgesClass = "badge bg-success"; // 8h 30m or above (Green)
+                                                    }
+                                                    else if (workingDuration >= TimeSpan.FromHours(6) && workingDuration < TimeSpan.FromHours(8) + TimeSpan.FromMinutes(30))
+                                                    {
+                                                        badgesClass = "badge bg-warning text-dark"; // Between 6h - 8h 30m (Yellow)
+                                                    }
+                                                    else
+                                                    {
+                                                        badgesClass = "badge bg-danger"; // Less than 6h (Red)
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    workingDurationText = "Invalid Time";
+                                                    badgesClass = "badge bg-secondary";
+                                                }
+                                            }
+                                            else
+                                            {
+                                                workingDurationText = "N/A";
+                                                badgesClass = "badge bg-secondary"; // No data available (Gray)
+                                            }
                                         }
+                                        <span class="@badgesClass">@workingDurationText</span>
                                     </td>
 
-                                    <td class="min-w-125px">
+                                    <td style="max-width: 200px;">
                                         @(string.IsNullOrEmpty(workLogDetail?.Note) ? "N/A" : workLogDetail.Note)
                                     </td>
                                 </tr>

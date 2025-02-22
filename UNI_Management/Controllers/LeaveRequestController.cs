@@ -2,6 +2,7 @@
 using UNI_Management.Domain;
 using UNI_Management.Helper.Mapper;
 using UNI_Management.Helper.Mapper.LeaveRequest;
+using UNI_Management.Service;
 using UNI_Management.ViewModel;
 using UNIManagement.Repositories.Repository.InterFace;
 using static QRCoder.PayloadGenerator;
@@ -11,9 +12,11 @@ namespace UNI_Management.Controllers
     public class LeaveRequestController : Controller
     {
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-        public LeaveRequestController(ILeaveRequestRepository leaveRequestRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        public LeaveRequestController(ILeaveRequestRepository leaveRequestRepository, IEmployeeRepository employeeRepository)
         {
             _leaveRequestRepository = leaveRequestRepository;
+            _employeeRepository = employeeRepository;
         }
         public IActionResult LeaveRequestFormPage()
         {
@@ -35,7 +38,7 @@ namespace UNI_Management.Controllers
                 return RedirectToAction("LeaveRequestListing");
             }
         }
-        public IActionResult LeaveRequestListing()
+        public async Task<IActionResult> LeaveRequestListing()
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
             string UserName = HttpContext.Session.GetString("Name");
@@ -44,6 +47,7 @@ namespace UNI_Management.Controllers
             {
                 model.leaveRequestList = _leaveRequestRepository.GetLeaveRequestList(UserId).ToModel();
             }
+            ViewBag.EmployeeDropdown = await _employeeRepository.GetEmployeeList();
             return View(model);
         }
 

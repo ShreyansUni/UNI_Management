@@ -8,6 +8,7 @@
         {
             _contextAccessor = new HttpContextAccessor();
         }
+
         public static string? TeamMemberId()
         {
             string cookieValue;
@@ -65,6 +66,13 @@
 
             return UserID;
         }
+
+        public static string? EmailBySession()
+        {
+            string? userEmail = _contextAccessor.HttpContext.Session.GetString("Email");
+            return userEmail;
+        }
+
         public static string? Username()
         {
             string cookieValue;
@@ -79,6 +87,7 @@
 
             return UserID;
         }
+
         public static string? AspNetUserId()
         {
             string cookieValue;
