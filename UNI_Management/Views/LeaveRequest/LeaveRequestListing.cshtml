@@ -1,3 +1,4 @@
+@using UNI_Management.Common
 @using UNI_Management.ViewModel
 @model LeaveRequestViewModel
 <div class="container-fluid mt-4">
@@ -48,6 +49,11 @@
                             <th class="text-center" scope="col">Start Date</th>
                             <th class="text-center" scope="col">End Date</th>
                             <th class="text-center" scope="col">Category</th>
+                            <th class="text-center" scope="col">Leave Status</th>
+                            @if (CV.EmailBySession() == "admin@theuniqueitsolution.com")
+                            {
+                                <th class="text-center" scope="col">Employee Name</th>
+                            }
                             <th class="text-center" scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -95,6 +101,42 @@
                                             }
                                         </div>
                                     </td>
+                                    <td class="text-center">
+                                        @if (CV.EmailBySession() == "admin@theuniqueitsolution.com")
+                                        {
+                                            @if (leaverequest.leaveStatus == null)
+                                            {
+                                                <button class="btn btn-success btn-sm" onclick="updateLeaveStatus(@leaverequest.LeaveID, @leaverequest.LeaveRequestorID, 'Approved')">Accept</button>
+                                                <button class="btn btn-danger btn-sm" onclick="updateLeaveStatus(@leaverequest.LeaveID, @leaverequest.LeaveRequestorID, 'Declined')">Decline</button>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @(leaverequest.leaveStatus == "Approved" ? "bg-success" : "bg-danger")">
+                                                    @(leaverequest.leaveStatus == "Approved" ? "Approved" : "Declined")
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @if (leaverequest.leaveStatus == null)
+                                            {
+                                                <span class="badge bg-warning">Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge @(leaverequest.leaveStatus == "Approved" ? "bg-success" : "bg-danger")">
+                                                    @(leaverequest.leaveStatus == "Approved" ? "Approved" : "Declined")
+                                                </span>
+                                            }
+                                        }
+                                    </td>
+                                    @if (CV.EmailBySession() == "admin@theuniqueitsolution.com")
+                                    {
+                                        <td>
+                                            @leaverequest.EmployeeName;
+                                        </td>
+                                    }
+
                                     <td>
                                         @if (leaverequest.LeaveEndDate < DateToday)
                                         {
@@ -133,7 +175,6 @@
         </div>
     </div>
 </div>
-
 @section BodyEndScript {
     <script>
         function openDeleteModal(recordId) {
@@ -175,4 +216,23 @@
     </script>
     <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        function updateLeaveStatus(leaveId, leaveRequestId, leaveStatus) {
+            fetch('/LeaveRequest/UpdateLeaveStatus', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ leaveId: leaveId, leaveRequestId: leaveRequestId, leaveStatus: leaveStatus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload(); // Reload page to reflect status change
+                } else {
+                    alert("Error updating leave request");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
 }

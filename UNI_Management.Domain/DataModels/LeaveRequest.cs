@@ -42,11 +42,7 @@ public partial class LeaveRequest
     [Column(TypeName = "character varying")]
     public string? AlternatePhoneNumber { get; set; }
 
-    public bool? IsAvailableOnPhone { get; set; }
-
     public bool? IsAdhocLeave { get; set; }
-
-    public bool? IsLeaveApproved { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? CreatedAt { get; set; }
@@ -60,6 +56,14 @@ public partial class LeaveRequest
 
     [Column(TypeName = "timestamp without time zone")]
     public DateTime? DeletedAt { get; set; }
+
+    [Column(TypeName = "boolean")]
+    public bool? IsLeaveApproved { get; set; }
+
+    public bool? IsAvailableOnPhone { get; set; }
+
+    [Column(TypeName = "character varying")]
+    public string? leavestatus { get; set; }
 
     [ForeignKey("EmployeeId")]
     [InverseProperty("LeaveRequestEmployees")]

@@ -22,23 +22,8 @@ namespace UNI_Management.Controllers
             _logger = logger;
             _employeeRepository = employeeRepository;
         }
-        #region Index
-        //public IActionResult Index()
-        //{
-        //    try
-        //    {
-        //        int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
-        //        TimeSheetViewModel timeSheetViewModel = new TimeSheetViewModel();
-        //        timeSheetViewModel.timeSheetDetailsList = _timeSheetRepository.GetTimeSheetData(UserId).ToModel();
 
-        //        return View("_TimeSheetList", timeSheetViewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "Exception in InventoryOpenRequestPagination");
-        //        return RedirectToRoute("Error_404");
-        //    }
-        //}
+        #region Index
         public async Task<IActionResult> Index()
         {
             try
@@ -107,6 +92,7 @@ namespace UNI_Management.Controllers
             }
         }
         #endregion
+
 
         #region
         //public IActionResult DownloadTimesheet()

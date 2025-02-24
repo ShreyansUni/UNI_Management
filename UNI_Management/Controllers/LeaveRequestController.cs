@@ -41,7 +41,7 @@ namespace UNI_Management.Controllers
         public async Task<IActionResult> LeaveRequestListing()
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
-            string UserName = HttpContext.Session.GetString("Name");
+            string UserName = HttpContext.Session.GetString("Name");    
             LeaveRequestViewModel model = new LeaveRequestViewModel();
             if (UserId != null)
             {
@@ -63,5 +63,15 @@ namespace UNI_Management.Controllers
             LeaveRequestViewModel model = _leaveRequestRepository.GetLeaveRecord(leaveRequestId).ToModel();
             return View("LeaveRequestFormPage", model);
         }
+
+        [HttpPost]
+        public IActionResult UpdateLeaveStatus([FromBody] LeaveStatusUpdateModel model)
+        {
+            bool result = _leaveRequestRepository.UpdateLeaveRequestStatus(model.LeaveID, model.LeaveRequestId, model.leaveStatus);
+            if (result)
+                return Json(new { success = result });
+            return View();
+        }
+
     }
 }

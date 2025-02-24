@@ -89,10 +89,6 @@ namespace UNI_Management.Service.TimeSheetRepository
         }
         #endregion
 
-        #region
-
-        #endregion
-
         //#region UpdateTimesheetdata
 
         //public async Task UpdateTimeSheet(int UserId)

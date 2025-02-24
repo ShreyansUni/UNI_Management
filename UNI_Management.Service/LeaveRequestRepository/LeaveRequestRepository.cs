@@ -66,7 +66,7 @@ namespace UNIManagement.Repositories.Repository
                     {
                         EmailBody = "EDITED: " + employee.FirstName + " " + employee.LastName + " is requesting " + model.leaveRequest.ActualLeaveDuration + " day leave on " + model.leaveRequest.LeaveStartDate + " (" + ((Enums.LeaveType)model.LeaveStartType).ToString() + "). <br> Reason Of Leave: <br>" + model.leaveRequest.ReasonForLeave + "<br>";
                     }
-                    EmailHelper.SendMail(employee.Email, EmailSubject, EmailBody);
+                    EmailHelper.SendMail("hr@uniqueconsumerservices.com", EmailSubject, EmailBody, employee.Email);
                 }
 
 
@@ -107,11 +107,29 @@ namespace UNIManagement.Repositories.Repository
                     {
                         EmailBody = employee.FirstName + " " + employee.LastName + " is requesting " + model.leaveRequest.ActualLeaveDuration + " day leave on " + model.leaveRequest.LeaveStartDate + " (" + ((Enums.LeaveType)model.LeaveStartType).ToString() + "). <br> Reason Of Leave: <br>" + model.leaveRequest.ReasonForLeave + "<br>";
                     }
-                    EmailHelper.SendMail(employee.Email, EmailSubject, EmailBody);
+                    EmailHelper.SendMail("hr@uniqueconsumerservices.com", EmailSubject, EmailBody, employee.Email);
                 }
             }
             
         }
+
+        public bool UpdateLeaveRequestStatus(int leaveId, int employeeId, string leaveStatus)
+        {
+            var leaveRequest = _context.LeaveRequests
+                                       .Where(lr => lr.EmployeeId == employeeId)
+                                       .OrderByDescending(lr => lr.RequestedDate)
+                                       .FirstOrDefault();
+
+            if (leaveRequest != null)
+            {
+                leaveRequest.leavestatus = leaveStatus;
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
         public List<Employee> GetEmployeeListForDropDown()
         {
             List<Employee> EmployeeList = _context.Employees.Where(emp => emp.IsDeleted == false).ToList();
@@ -119,19 +137,42 @@ namespace UNIManagement.Repositories.Repository
         }
         public List<LeaveRequestDTO> GetLeaveRequestList(int userId)
         {
-            List<LeaveRequestDTO> model = new();
-            if (userId == -1)
+            try
             {
+                List<LeaveRequestDTO> model = new();
+                if (userId == -1)
+                {
+                    return model;
+                }
+                if(userId == 165)
+                {
+                    model = (from leaveRequests in _context.LeaveRequests
+                             join emp in _context.Employees on leaveRequests.EmployeeId equals emp.EmployeeId
+                             where leaveRequests.DeletedAt == null
+                             orderby leaveRequests.LeaveStartDate descending
+                             select new LeaveRequestDTO
+                             {
+                                 leaveRequest = leaveRequests,
+                                 EmployeeName = emp.FirstName
+                             }).ToList();
+                }
+                else
+                {
+                    model = (from leaveRequests in _context.LeaveRequests
+                             where leaveRequests.EmployeeId == userId && leaveRequests.DeletedAt == null
+                             orderby leaveRequests.LeaveStartDate descending
+                             select new LeaveRequestDTO
+                             {
+                                 leaveRequest = leaveRequests,
+                             }).ToList();
+                }
                 return model;
             }
-            model = (from leaveRequests in _context.LeaveRequests
-                     where leaveRequests.EmployeeId == userId && leaveRequests.DeletedAt == null
-                     orderby leaveRequests.LeaveStartDate descending
-                     select new LeaveRequestDTO
-                     {
-                         leaveRequest = leaveRequests,
-                     }).ToList();
-            return model;
+            catch (Exception ex)
+            {
+                return new List<LeaveRequestDTO>();
+            }
+            
         }
         public void DeleteLeaveRecord(int leaveRequestId)
         {
