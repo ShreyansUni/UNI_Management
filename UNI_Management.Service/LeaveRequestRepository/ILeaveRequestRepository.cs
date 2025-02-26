@@ -15,5 +15,6 @@ namespace UNIManagement.Repositories.Repository.InterFace
         public List<LeaveRequestDTO> GetLeaveRequestList(int userId);
         public void DeleteLeaveRecord(int leaveRequestId);
         public LeaveRequestDTO GetLeaveRecord(int leaveRequestId);
+        bool UpdateLeaveRequestStatus(int leaveId, int employeeId, string leaveStatus);
     }
 }

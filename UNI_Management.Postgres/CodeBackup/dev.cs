@@ -4,3 +4,11 @@
 //    Npgsql.EntityFrameworkCore.PostgreSQL 
 //    - outputDir DataModels - context ApplicationDbContext - contextDir DataContext - f 
 //    - DataAnnotations
+
+
+
+//ALTER TABLE LeaveRequest 
+//ADD COLUMN leavestatus VARCHAR(50);
+
+//ALTER TABLE WorkLog 
+//ADD COLUMN BreakHours TIME WITHOUT TIME ZONE;

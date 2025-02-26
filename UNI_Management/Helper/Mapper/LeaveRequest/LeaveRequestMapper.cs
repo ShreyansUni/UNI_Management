@@ -27,8 +27,11 @@ namespace UNI_Management.Helper.Mapper.LeaveRequest
                 .ForMember(dest => dest.RequestedDate, mo => mo.MapFrom(src => src.leaveRequest.RequestedDate))
                 .ForMember(dest => dest.ReturnDate, mo => mo.MapFrom(src => src.leaveRequest.ReturnDate))
                 .ForMember(dest => dest.IsAdhocLeave, mo => mo.MapFrom(src => src.leaveRequest.IsAdhocLeave))
+                .ForMember(dest => dest.IsLeaveApproved, mo => mo.MapFrom(src => src.leaveRequest.IsLeaveApproved))
+                .ForMember(dest => dest.leaveStatus, mo => mo.MapFrom(src => src.leaveRequest.leavestatus))
                 .ForMember(dest => dest.IsAvailableOnPhone, mo => mo.MapFrom(src => src.leaveRequest.IsAvailableOnPhone))
                 .ForMember(dest => dest.AlternatePhoneNumber, mo => mo.MapFrom(src => src.leaveRequest.AlternatePhoneNumber))
+                .ForMember(dest => dest.EmployeeName, mo => mo.MapFrom(src => src.EmployeeName))
                 .ForMember(dest => dest.PhoneNumber, mo => mo.MapFrom(src => src.leaveRequest.PhoneNumber));
             });
             IMapper mapper = config.CreateMapper();
@@ -54,6 +57,7 @@ namespace UNI_Management.Helper.Mapper.LeaveRequest
                 .ForPath(dest => dest.leaveRequestDetails.RequestedDate, mo => mo.MapFrom(src => src.leaveRequest.RequestedDate))
                 .ForPath(dest => dest.leaveRequestDetails.ReturnDate, mo => mo.MapFrom(src => src.leaveRequest.ReturnDate))
                 .ForPath(dest => dest.leaveRequestDetails.IsAdhocLeave, mo => mo.MapFrom(src => src.leaveRequest.IsAdhocLeave))
+                .ForPath(dest => dest.leaveRequestDetails.IsLeaveApproved, mo => mo.MapFrom(src => src.leaveRequest.IsLeaveApproved))
                 .ForPath(dest => dest.leaveRequestDetails.IsAvailableOnPhone, mo => mo.MapFrom(src => src.leaveRequest.IsAvailableOnPhone))
                 .ForPath(dest => dest.leaveRequestDetails.AlternatePhoneNumber, mo => mo.MapFrom(src => src.leaveRequest.AlternatePhoneNumber))
                 .ForPath(dest => dest.leaveRequestDetails.PhoneNumber, mo => mo.MapFrom(src => src.leaveRequest.PhoneNumber));

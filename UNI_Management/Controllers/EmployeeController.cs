@@ -38,7 +38,7 @@ namespace UNI_Management.Controllers
                 model.employeeList = _employeeRepository.GetEmployeeList(null, null, null, model.PageSize, model.PageIndex, string.Empty, string.Empty).ToModel();
                 ViewBag.EmpTypeDropDown = new List<SelectListItem>
                                             {
-                                                new SelectListItem { Value = "BDA", Text = "BDA" },
+                                                new SelectListItem { Value = "BDE", Text = "BDE" },
                                                 new SelectListItem { Value = "Technical", Text = "Technical" }
                                             };
                 return View(model);

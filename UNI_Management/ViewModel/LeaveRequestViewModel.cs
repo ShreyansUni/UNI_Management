@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UNI_Management.Domain.DataModels;
 
 namespace UNI_Management.ViewModel
 {
@@ -18,6 +19,8 @@ namespace UNI_Management.ViewModel
         public List<LeaveRequestDetails> leaveRequestList { get; set; }
 
         public LeaveRequestDetails leaveRequestDetails { get; set; }
+
+        public int EmployeeId { get; set; }
     }
     public class LeaveRequestDetails
     {
@@ -56,5 +59,17 @@ namespace UNI_Management.ViewModel
         public string? AlternatePhoneNumber { get; set; }
         public bool IsAvailableOnPhone { get; set; } = true;
         public bool IsAdhocLeave { get; set; } = false;
+        public bool? IsLeaveApproved { get; set; }
+        public string leaveStatus { get; set; }
+        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public int TotalRecords { get; set; }
+    }
+
+    public class LeaveStatusUpdateModel
+    {
+        public int LeaveID { get; set; }
+        public int LeaveRequestId { get; set; }
+        public string leaveStatus { get; set; }
     }
 }

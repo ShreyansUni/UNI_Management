@@ -81,6 +81,13 @@
                                         <span asp-validation-for="workLogDetails.Note" class="text-danger"></span>
                                     </div>
                                 </div>
+                                <div class="row pt-4">
+                                    <div class="col-md-6">
+                                        <label for="BreakHours">Select BreakHours</label>
+                                        <input type="time" id="BreakHours" asp-for="workLogDetails.BreakHours" class="form-control" />
+                                        <span asp-validation-for="workLogDetails.BreakHours" class="text-danger"></span>
+                                    </div>
+                                </div>
 
                                 <div class="form-group pt-5 text-center">
                                     <button type="reset" class="btn btn-danger">Reset</button>
@@ -95,3 +102,12 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let breakHoursInput = document.getElementById("BreakHours");
+
+        // Set initial value in hh:mm format
+        let breakHoursValue = "@(Model.workLogDetails?.BreakHours?.ToString(@"hh\:mm") ?? "01:00")";
+        breakHoursInput.value = breakHoursValue;
+    });
+</script>

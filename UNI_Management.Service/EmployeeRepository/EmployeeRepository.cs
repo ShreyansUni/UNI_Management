@@ -110,6 +110,24 @@ namespace UNI_Management.Service
             };
         }
 
+        public async Task<List<Employee>> GetEmployeeList()
+        {
+            try
+            {
+                return await _context.Employees.Where(d => d.IsDeleted == false)
+              .Select(d => new Employee
+              {
+                  EmployeeId = d.EmployeeId,
+                  FirstName = d.FirstName
+              })
+              .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return new List<Employee>();
+            }
+        }
+
         public bool EmployeeAddEdit(EmployeeDTO employee)
         {
             try

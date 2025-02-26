@@ -25,6 +25,7 @@ namespace UNI_Management.Domain
         public int LeaveEndType { get; set; }
         public string LeaveRequestorName { get; set; }
         public string LeaveResponsorName { get; set; }
+        public string EmployeeName { get; set; }
 
         public List<Employee>? EmployeeDropdownList { get; set; }
     }

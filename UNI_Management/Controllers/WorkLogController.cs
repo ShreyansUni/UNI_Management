@@ -10,22 +10,31 @@ namespace UNI_Management.Controllers
     {
         #region Constructor
         private readonly IWorkLogRepository _worklogRepository;
-        public WorkLogController(IWorkLogRepository worklogRepository)
+        private readonly IEmployeeRepository _employeeRepository;
+        public WorkLogController(IWorkLogRepository worklogRepository, IEmployeeRepository employeeRepository)
         {
             _worklogRepository = worklogRepository;
+            _employeeRepository = employeeRepository;
         }
         #endregion
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? employeeId)
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;
             string UserName = HttpContext.Session.GetString("Name");
             WorkLogViewModal wl = new WorkLogViewModal();
-            if(UserId != null)
+            //if(UserId != null)
+            //    wl.workLogList = _worklogRepository.WorkLogList(UserId).ToModel();
+            if (employeeId.HasValue && employeeId.Value != 0)
+                wl.workLogList = _worklogRepository.WorkLogList(employeeId.Value).ToModel();
+            else
                 wl.workLogList = _worklogRepository.WorkLogList(UserId).ToModel();
+            ViewBag.EmployeeDropdown = await _employeeRepository.GetEmployeeList();
+            wl.SelectedEmployeeId = employeeId ?? 0;
             return View(wl);
         }
+
         [HttpGet, Route("worklog/edit/{worklogid}", Name = "UserAddEditModal")]
         [HttpGet, Route("worklog/add/", Name = "worklogAdd")]
         public IActionResult AddWorkLog(int WorkLogId)
@@ -37,6 +46,7 @@ namespace UNI_Management.Controllers
             }
             return View(workLogViewModal);
         }
+
         public async Task<IActionResult> AddEdit(WorkLogViewModal model)
         {
             int UserId = HttpContext.Session.GetInt32("UserId") ?? -1;

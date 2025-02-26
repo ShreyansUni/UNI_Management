@@ -17,7 +17,8 @@ namespace UNI_Management.Helper.Mapper.WorkLog
                 .ForMember(dest => dest.Note, mo => mo.MapFrom(src => src.workLog.Message))
                 .ForMember(dest => dest.Subject, mo => mo.MapFrom(src => src.workLog.Subject))
                 .ForMember(dest => dest.SignOutTime, mo => mo.MapFrom(src => src.workLog.SignOutTime))
-                .ForMember(dest => dest.CreatedDate, mo => mo.MapFrom(src => src.workLog.CreatedDate));
+                .ForMember(dest => dest.CreatedDate, mo => mo.MapFrom(src => src.workLog.CreatedDate))
+                .ForMember(dest => dest.BreakHours, mo => mo.MapFrom(src => src.workLog.BreakHours));
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<List<WorkLogDTO>, List<WorkLogDetails>>(entity);
@@ -33,7 +34,8 @@ namespace UNI_Management.Helper.Mapper.WorkLog
                 .ForMember(dest => dest.Note, mo => mo.MapFrom(src => src.workLog.Message))
                 .ForMember(dest => dest.Subject, mo => mo.MapFrom(src => src.workLog.Subject))
                 .ForMember(dest => dest.SignOutTime, mo => mo.MapFrom(src => src.workLog.SignOutTime))
-                .ForMember(dest => dest.CreatedDate, mo => mo.MapFrom(src => src.workLog.CreatedDate));
+                .ForMember(dest => dest.CreatedDate, mo => mo.MapFrom(src => src.workLog.CreatedDate))
+                .ForMember(dest => dest.BreakHours, mo => mo.MapFrom(src => src.workLog.BreakHours));
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<WorkLogDTO, WorkLogDetails>(entity);
@@ -49,7 +51,8 @@ namespace UNI_Management.Helper.Mapper.WorkLog
                 .ForPath(dest => dest.workLog.Message, mo => mo.MapFrom(src => src.workLogDetails.Note))
                 .ForPath(dest => dest.workLog.Subject, mo => mo.MapFrom(src => src.workLogDetails.Subject))
                 .ForPath(dest => dest.workLog.SignOutTime, mo => mo.MapFrom(src => src.workLogDetails.SignOutTime))
-                .ForPath(dest => dest.workLog.CreatedDate, mo => mo.MapFrom(src => src.workLogDetails.CreatedDate));
+                .ForPath(dest => dest.workLog.CreatedDate, mo => mo.MapFrom(src => src.workLogDetails.CreatedDate))
+                .ForPath(dest => dest.workLog.BreakHours, mo => mo.MapFrom(src => src.workLogDetails.BreakHours));
             });
             IMapper mapper = config.CreateMapper();
             return mapper.Map<WorkLogViewModal, WorkLogDTO>(entity);

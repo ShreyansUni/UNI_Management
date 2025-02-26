@@ -20,6 +20,8 @@ namespace UNI_Management.ViewModel
 
         public WorkLogDetails workLogDetails { get; set; }
 
+        public int SelectedEmployeeId { get; set; }
+
         public class WorkLogDetails
         {
             public int WorkLogId { get; set; }
@@ -43,8 +45,7 @@ namespace UNI_Management.ViewModel
             public DateTime? WorkDate { get; set; }
 
             [Required(ErrorMessage = "Hours spent is required")]
-            [Range(0.1, 24, ErrorMessage = "Hours spent must be between 0.1 and 24")]
-            public decimal? HoursSpent { get; set; }
+            public TimeOnly? BreakHours { get; set; }
 
             [Required(ErrorMessage = "Project selection is required")]
             public int? ProjectId { get; set; }

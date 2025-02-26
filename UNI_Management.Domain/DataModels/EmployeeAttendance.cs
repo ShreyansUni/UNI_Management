@@ -28,7 +28,7 @@ public partial class EmployeeAttendance
     public string? Description { get; set; }
 
     [Column(TypeName = "timestamp without time zone")]
-    public DateTime Created { get; set; }
+    public DateTime? Created { get; set; }
 
     public int CreatedBy { get; set; }
 

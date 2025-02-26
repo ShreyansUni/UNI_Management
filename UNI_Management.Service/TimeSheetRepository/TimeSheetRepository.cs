@@ -27,29 +27,63 @@ namespace UNI_Management.Service.TimeSheetRepository
         #endregion
 
         #region GetTimeSheetData
+        //public List<TimeSheetDTO> GetTimeSheetData(int UserId)
+        //{
+        //    var workLogs = _context.WorkLogs.ToList();
+        //    var attendances = _context.EmployeeAttendances.ToList();
+
+        //    if (workLogs == null || attendances == null || UserId == -1)
+        //    {
+        //        return new List<TimeSheetDTO>();
+        //    }
+
+        //    var timeSheetDTOList = (from attendance in attendances
+        //                            join workLog in workLogs
+        //                            on attendance.EmployeeId equals workLog.EmployeeId into workLogGroup
+        //                            from workLog in workLogGroup.DefaultIfEmpty()
+        //                            where attendance.EmployeeId == UserId
+        //                            select new TimeSheetDTO
+        //                            {
+        //                                workLog = workLog,
+        //                                attandence = attendance
+        //                            }).ToList();
+
+        //    return timeSheetDTOList;
+        //}
         public List<TimeSheetDTO> GetTimeSheetData(int UserId)
         {
-            var workLogs = _context.WorkLogs.ToList();
-            var attendances = _context.EmployeeAttendances.ToList();
+            var workLogs = _context.WorkLogs
+                .Where(w => w.EmployeeId == UserId) // Fetch only relevant work logs
+                .ToList();
 
-            if (workLogs == null || attendances == null || UserId == -1)
+            var attendances = _context.EmployeeAttendances
+                .Where(a => a.EmployeeId == UserId) // Fetch only relevant attendances
+                .ToList();
+
+            if (!workLogs.Any() && !attendances.Any())
             {
                 return new List<TimeSheetDTO>();
             }
 
             var timeSheetDTOList = (from attendance in attendances
                                     join workLog in workLogs
-                                    on attendance.EmployeeId equals workLog.EmployeeId into workLogGroup
-                                    from workLog in workLogGroup.DefaultIfEmpty()  
-                                    where attendance.EmployeeId == UserId
+                                    on new
+                                    {
+                                        EmployeeId = attendance.EmployeeId,
+                                        AttendanceDate = attendance.Created?.Date ?? DateTime.MinValue.Date
+                                    }
+                                    equals new
+                                    {
+                                        EmployeeId = workLog.EmployeeId ?? 0,
+                                        AttendanceDate = workLog.SignOutTime?.Date ?? DateTime.MinValue.Date
+                                    }
+                                    into workLogGroup
+                                    from workLog in workLogGroup.DefaultIfEmpty()
                                     select new TimeSheetDTO
                                     {
-                                        workLog = workLog,  
-                                        attandence = attendance
+                                        attandence = attendance,
+                                        workLog = workLog?.SignOutTime != null ? workLog : null
                                     }).ToList();
-
-
-
 
             return timeSheetDTOList;
         }
