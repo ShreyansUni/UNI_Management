@@ -1,4 +1,5 @@
-﻿@model UNI_Management.ViewModel.TimeSheetViewModel
+﻿@using UNI_Management.ViewModel
+@model UNI_Management.ViewModel.TimeSheetViewModel
 
 @{
     var demo = Model;
@@ -28,16 +29,19 @@
                         <label for="txtToDate">To Date</label>
                     </div>
                 </div>
-                <div class="col-md-3 my-2">
-                    <div class="form-floating">
-                        <select class="form-select"
-                                id="employeeDropdown" asp-for="EmployeeId"
-                                asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
-                                data-placeholder="Employee">
-                            <option value="">Select Employee</option>
-                        </select>
+                @if (CV.EmailBySession() == "admin@theuniqueitsolution.com")
+                {
+                    <div class="col-md-3 my-2">
+                        <div class="form-floating">
+                            <select class="form-select"
+                                    id="employeeDropdown" asp-for="EmployeeId"
+                                    asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
+                                    data-placeholder="Employee">
+                                <option value="">Select Employee</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
+                }
 
                 <div class="col-md-3 my-3">
                     <button class="btn btn-primary">Search</button>

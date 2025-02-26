@@ -1,4 +1,5 @@
-﻿@model UNI_Management.ViewModel.AttandanceViewModal
+﻿@using UNI_Management.ViewModel
+@model UNI_Management.ViewModel.AttandanceViewModal
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
@@ -38,14 +39,17 @@
                                         <select id="dropdownYear" class="form-select">
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <select class="form-select"
-                                                id="employeeDropdown" asp-for="attadenceDetails.EmployeeId"
-                                                asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
-                                                data-placeholder="Employee">
-                                            <option value="">Select Employee</option>
-                                        </select>
-                                    </div>
+                                    @if (CV.EmailBySession() == "admin@theuniqueitsolution.com")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-select"
+                                                    id="employeeDropdown" asp-for="attadenceDetails.EmployeeId"
+                                                    asp-items="@(new SelectList(ViewBag.EmployeeDropdown, "EmployeeId", "FirstName"))"
+                                                    data-placeholder="Employee">
+                                                <option value="">Select Employee</option>
+                                            </select>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
